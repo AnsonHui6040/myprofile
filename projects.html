@@ -14,6 +14,20 @@
   a { color: inherit; }
   .pj-card { transition: background .15s, transform .25s, border-color .15s; }
   .pj-card:hover { background: #1b1814; border-color: rgba(232,169,98,0.4); }
+  @media (max-width: 640px) {
+    .ah-grain > header { grid-template-columns: 1fr auto !important; padding: 14px 20px !important; gap: 0 !important; }
+    .ah-grain > header nav { display: none !important; }
+    .ah-grain > header > a { grid-column: auto !important; }
+    .ah-grain > header > div { grid-column: auto !important; font-size: 9px !important; }
+    .pj-hero { grid-template-columns: 1fr !important; padding: 28px 20px 20px !important; gap: 14px !important; }
+    .pj-hero h1 { font-size: 44px !important; }
+    .pj-hero > div { grid-column: auto !important; }
+    .pj-filter { padding: 0 20px 12px !important; }
+    .pj-cards-sect { padding: 12px 20px 40px !important; }
+    .pj-grid { grid-template-columns: 1fr !important; }
+    .pj-stats-sect { padding: 0 20px 40px !important; }
+    .pj-stats { grid-template-columns: repeat(2, 1fr) !important; }
+  }
 </style>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
@@ -37,7 +51,7 @@ function ProjectsPage() {
       <PageNav active="projects" />
 
       {/* Hero */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 20, padding: '60px 44px 40px' }}>
+      <section className="pj-hero" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 20, padding: '60px 44px 40px' }}>
         <div style={{ gridColumn: 'span 8' }}>
           <div style={{ fontFamily: T.mono, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.accent, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{ width: 8, height: 8, borderRadius: 99, background: T.accent, boxShadow: `0 0 10px ${T.accent}` }} />
@@ -59,7 +73,7 @@ function ProjectsPage() {
       </section>
 
       {/* Filter chips */}
-      <section style={{ padding: '0 44px 18px', display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+      <section className="pj-filter" style={{ padding: '0 44px 18px', display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
         <span style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, letterSpacing: '0.16em', textTransform: 'uppercase', marginRight: 6 }}>
           Filter:
         </span>
@@ -83,8 +97,8 @@ function ProjectsPage() {
       </section>
 
       {/* Grid of project cards */}
-      <section style={{ padding: '12px 44px 56px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+      <section className="pj-cards-sect" style={{ padding: '12px 44px 56px' }}>
+        <div className="pj-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
           {filtered.map((p, i) => (
             <a key={p.name} href={p.url} className="pj-card" style={{
               display: 'block', padding: '24px 24px 22px',
@@ -122,8 +136,8 @@ function ProjectsPage() {
       </section>
 
       {/* Stats strip */}
-      <section style={{ padding: '0 44px 56px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: `1px solid ${T.rule}`, background: T.card }}>
+      <section className="pj-stats-sect" style={{ padding: '0 44px 56px' }}>
+        <div className="pj-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: `1px solid ${T.rule}`, background: T.card }}>
           {[
             { n: PROJECTS.length, l: 'Projects shipped' },
             { n: 2, l: 'Live demos' },

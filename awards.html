@@ -14,6 +14,23 @@
   a { color: inherit; }
   .cert { transition: transform .25s, border-color .15s; }
   .cert:hover { transform: translateY(-3px); border-color: rgba(232,169,98,0.5); }
+  @media (max-width: 640px) {
+    .ah-grain > header { grid-template-columns: 1fr auto !important; padding: 14px 20px !important; gap: 0 !important; }
+    .ah-grain > header nav { display: none !important; }
+    .ah-grain > header > a { grid-column: auto !important; }
+    .ah-grain > header > div { grid-column: auto !important; font-size: 9px !important; }
+    .aw-hero { grid-template-columns: 1fr !important; padding: 28px 20px 20px !important; gap: 14px !important; }
+    .aw-hero h1 { font-size: 40px !important; }
+    .aw-hero > div { grid-column: auto !important; }
+    .aw-filter { padding: 0 20px 12px !important; }
+    .aw-cards-sect { padding: 0 20px 32px !important; }
+    .aw-grid { grid-template-columns: 1fr !important; }
+    .aw-timeline-sect { padding: 20px 20px 40px !important; }
+    .aw-timeline-row { grid-template-columns: 80px 1fr !important; }
+    .aw-timeline-row > div:nth-child(2),
+    .aw-timeline-row > div:nth-child(4),
+    .aw-timeline-row > div:nth-child(5) { display: none !important; }
+  }
 </style>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
@@ -32,10 +49,11 @@ function CertStamp({ a }) {
   return (
     <div style={{
       position: 'relative', width: '100%', paddingTop: '62%',
-      background: `radial-gradient(circle at 30% 30%, ${a.color}26 0%, transparent 55%), ${T.card}`,
+      background: a.img ? T.card : `radial-gradient(circle at 30% 30%, ${a.color}26 0%, transparent 55%), ${T.card}`,
       borderBottom: `1px solid ${T.rule}`,
       overflow: 'hidden',
     }}>
+      {a.img && <img src={a.img} alt={a.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', opacity: 0.9 }} />}
       <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '20px 22px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div style={{
@@ -75,7 +93,7 @@ function AwardsPage() {
       <PageNav active="awards" />
 
       {/* Hero */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 20, padding: '60px 44px 40px' }}>
+      <section className="aw-hero" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 20, padding: '60px 44px 40px' }}>
         <div style={{ gridColumn: 'span 8' }}>
           <div style={{ fontFamily: T.mono, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.accent, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{ width: 8, height: 8, borderRadius: 99, background: T.accent, boxShadow: `0 0 10px ${T.accent}` }} />
@@ -97,7 +115,7 @@ function AwardsPage() {
       </section>
 
       {/* Filter chips */}
-      <section style={{ padding: '0 44px 22px', display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+      <section className="aw-filter" style={{ padding: '0 44px 22px', display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
         <span style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, letterSpacing: '0.16em', textTransform: 'uppercase', marginRight: 6 }}>
           Category:
         </span>
@@ -117,9 +135,8 @@ function AwardsPage() {
         })}
       </section>
 
-      {/* Cards grid */}
-      <section style={{ padding: '0 44px 40px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+      <section className="aw-cards-sect" style={{ padding: '0 44px 40px' }}>
+        <div className="aw-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
           {filtered.map((a, i) => (
             <div key={a.id} className="cert" style={{
               background: T.card, border: `1px solid ${T.rule}`,
@@ -145,12 +162,11 @@ function AwardsPage() {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section style={{ padding: '20px 44px 56px' }}>
+      <section className="aw-timeline-sect" style={{ padding: '20px 44px 56px' }}>
         <SectionHead num="04" kicker="Chronology" title="By year." meta="2022 — 2024" />
         <div style={{ background: T.card, border: `1px solid ${T.rule}` }}>
           {AWARDS.slice().sort((a, b) => Number(b.year) - Number(a.year)).map((a, i, arr) => (
-            <div key={a.id} style={{
+            <div key={a.id} className="aw-timeline-row" style={{
               display: 'grid', gridTemplateColumns: '90px 100px 1.2fr 2fr 80px',
               padding: '16px 22px', alignItems: 'center', gap: 14,
               borderTop: i === 0 ? 'none' : `1px solid ${T.rule}`,
@@ -162,9 +178,6 @@ function AwardsPage() {
               <div style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, textAlign: 'right', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{a.org}</div>
             </div>
           ))}
-        </div>
-        <div style={{ marginTop: 14, fontFamily: T.mono, fontSize: 10, color: T.muted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-          Note · 內容為示意，實際獎狀掃描檔可後續上傳並取代封面。
         </div>
       </section>
 

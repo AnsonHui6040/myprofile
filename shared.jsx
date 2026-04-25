@@ -18,7 +18,7 @@ const PROJECTS = [
     desc: '依口味、湯頭、配料找到最適合你的拉麵流派的互動工具。',
     descEn: 'Find your perfect ramen style by flavour, broth and toppings.',
     url: 'https://github.com/AnsonHui6040/ramen-style-finder',
-    year: '2025',
+    year: '2026',
     color: '#c94b2a',
   },
   {
@@ -27,45 +27,11 @@ const PROJECTS = [
     desc: '拉麵店地圖與篩選器——讓找店變成一件愉快的事。',
     descEn: 'A filterable map of ramen shops — because hunting dinner should be fun.',
     url: 'https://github.com/AnsonHui6040/ramen-shop-finder',
-    year: '2025',
+    year: '2026',
     color: '#d89a3a',
   },
-  {
-    name: 'portfolio · Adobe',
-    tag: 'Portfolio',
-    desc: '完整作品集於 Adobe Portfolio，含設計、攝影與案例說明。',
-    descEn: 'Long-form portfolio on Adobe Portfolio — design, photography, case studies.',
-    url: 'https://ansonhui6040.myportfolio.com/',
-    year: '2024',
-    color: '#3a6ad8',
-  },
-  {
-    name: 'live prototype · A',
-    tag: 'Cloud · Demo',
-    desc: '線上部署的互動 demo（Claw Cloud）。',
-    descEn: 'Hosted interactive demo on Claw Cloud.',
-    url: 'https://ircoofrbgpyx.ap-northeast-1.clawcloudrun.com/',
-    year: '2025',
-    color: '#3aa678',
-  },
-  {
-    name: 'live prototype · B',
-    tag: 'Cloud · Demo',
-    desc: '第二個線上互動 demo，持續迭代中。',
-    descEn: 'Second hosted demo — iterating in public.',
-    url: 'https://gmtsskbsugqo.ap-northeast-1.clawcloudrun.com/',
-    year: '2025',
-    color: '#7a3ad8',
-  },
-  {
-    name: 'linktr.ee · index',
-    tag: 'Index',
-    desc: '所有連結的總目錄。',
-    descEn: 'Everything in one place.',
-    url: 'https://linktr.ee/ansonhui6040',
-    year: '—',
-    color: '#2a2a2a',
-  },
+
+
 ];
 
 // Photo placeholders — labelled SVG stripes standing in for real shots.
@@ -112,58 +78,28 @@ const PAGES = [
 const AWARDS = [
   {
     id: 'a1',
-    title: '校園攝影比賽 — 入選',
-    org: 'Photo Contest',
-    year: '2024',
+    title: '周年攝影大賽 — 金獎',
+    org: '上‧文化',
+    year: '2023',
     category: 'Photography',
-    note: '街頭主題系列作品入選展出。',
+    note: '金獎得獎作品。',
     color: '#e8a962',
+    img: 'photo/award-moon.jpeg',
   },
   {
     id: 'a2',
-    title: 'Web 開發實作課程結業',
-    org: 'Online Course',
-    year: '2024',
-    category: 'Certificate',
-    note: 'React · 前端開發完整實作。',
-    color: '#7ac0c0',
-  },
-  {
-    id: 'a3',
-    title: '專題簡報競賽 — 佳作',
-    org: 'Project Showcase',
+    title: '周年攝影大賽 — 金獎',
+    org: '上‧文化',
     year: '2023',
-    category: 'Award',
-    note: '互動工具類別入圍佳作。',
-    color: '#c4855a',
+    category: 'Photography',
+    note: '金獎得獎作品。',
+    color: '#e8a962',
+    img: 'photo/award-002.jpeg',
   },
-  {
-    id: 'a4',
-    title: 'UI / UX 工作坊認證',
-    org: 'Workshop',
-    year: '2023',
-    category: 'Certificate',
-    note: '完成設計思考與原型製作課程。',
-    color: '#9a7ad8',
-  },
-  {
-    id: 'a5',
-    title: '英語能力檢定',
-    org: 'Language Cert',
-    year: '2022',
-    category: 'Certificate',
-    note: '通用英檢中高級。',
-    color: '#5a9ad8',
-  },
-  {
-    id: 'a6',
-    title: '志工服務證明',
-    org: 'Community',
-    year: '2022',
-    category: 'Service',
-    note: '社區服務時數認證。',
-    color: '#7ad89a',
-  },
+  { id: 'a3', title: '—', org: '—', year: '—', category: 'TBD', note: '', color: '#555' },
+  { id: 'a4', title: '—', org: '—', year: '—', category: 'TBD', note: '', color: '#555' },
+  { id: 'a5', title: '—', org: '—', year: '—', category: 'TBD', note: '', color: '#555' },
+  { id: 'a6', title: '—', org: '—', year: '—', category: 'TBD', note: '', color: '#555' },
 ];
 
 // Shared dark/swiss design tokens — matches V5.
@@ -203,7 +139,7 @@ function PageNav({ active }) {
       </a>
       <nav style={{
         gridColumn: 'span 7',
-        display: 'flex', gap: 28,
+        display: 'flex', gap: 28, justifyContent: 'center',
         fontFamily: T.mono, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase',
       }}>
         {PAGES.filter((p) => p.id !== 'home').map((p) => {
