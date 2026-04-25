@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Projects — AnsonHui</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Figtree:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  html, body { margin:0; padding:0; background:#0e0d0b; font-family: Figtree, "Noto Sans TC", system-ui, sans-serif; color:#ede4d0; }
+  *, *::before, *::after { box-sizing: border-box; }
+  a { color: inherit; }
+  .pj-card { transition: background .15s, transform .25s, border-color .15s; }
+  .pj-card:hover { background: #1b1814; border-color: rgba(232,169,98,0.4); }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="shared.jsx"></script>
+<script type="text/babel">
+
+function ProjectsPage() {
+  const tags = ['All', ...Array.from(new Set(PROJECTS.map((p) => p.tag.split(' · ')[0])))];
+  const [filter, setFilter] = React.useState('All');
+  const filtered = filter === 'All' ? PROJECTS : PROJECTS.filter((p) => p.tag.split(' · ')[0] === filter);
+
+  return (
+    <div className="ah-grain" style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <PageNav active="projects" />
+
+      {/* Hero */}
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 20, padding: '60px 44px 40px' }}>
+        <div style={{ gridColumn: 'span 8' }}>
+          <div style={{ fontFamily: T.mono, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.accent, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ width: 8, height: 8, borderRadius: 99, background: T.accent, boxShadow: `0 0 10px ${T.accent}` }} />
+            02 — Projects
+          </div>
+          <h1 style={{ margin: 0, fontFamily: T.sans, fontWeight: 800, fontSize: 72, lineHeight: 1, letterSpacing: '-0.035em' }}>
+            <span style={{ color: T.ink }}>Things I&rsquo;ve</span><br/>
+            <span style={{ color: T.accent }}>built &amp; shipped.</span>
+          </h1>
+        </div>
+        <div style={{ gridColumn: 'span 4', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 10 }}>
+          <a href="https://github.com/ansonhui6040" style={{ fontFamily: T.mono, fontSize: 11, color: T.accent, letterSpacing: '0.16em', textTransform: 'uppercase', textDecoration: 'none', borderBottom: `1px solid ${T.accent}`, paddingBottom: 3, alignSelf: 'flex-start' }}>
+            github.com/ansonhui6040 →
+          </a>
+          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: T.inkSoft, maxWidth: 320 }}>
+            Web apps、互動工具、線上 demo、作品集索引。每個都連到原始碼或實機 demo。
+          </p>
+        </div>
+      </section>
+
+      {/* Filter chips */}
+      <section style={{ padding: '0 44px 18px', display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+        <span style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, letterSpacing: '0.16em', textTransform: 'uppercase', marginRight: 6 }}>
+          Filter:
+        </span>
+        {tags.map((t) => {
+          const on = t === filter;
+          return (
+            <button key={t} onClick={() => setFilter(t)} style={{
+              fontFamily: T.mono, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase',
+              padding: '7px 12px',
+              background: on ? T.accent : 'transparent',
+              color: on ? T.bg : T.ink,
+              border: `1px solid ${on ? T.accent : T.rule}`,
+              cursor: 'pointer',
+              fontWeight: on ? 700 : 400,
+            }}>{t}</button>
+          );
+        })}
+        <span style={{ marginLeft: 'auto', fontFamily: T.mono, fontSize: 11, color: T.muted, letterSpacing: '0.1em' }}>
+          {filtered.length} of {PROJECTS.length} entries
+        </span>
+      </section>
+
+      {/* Grid of project cards */}
+      <section style={{ padding: '12px 44px 56px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+          {filtered.map((p, i) => (
+            <a key={p.name} href={p.url} className="pj-card" style={{
+              display: 'block', padding: '24px 24px 22px',
+              background: T.card, border: `1px solid ${T.rule}`,
+              textDecoration: 'none', color: T.ink,
+              position: 'relative',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+                <div style={{ width: 36, height: 4, background: p.color }} />
+                <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+                  № {String(i + 1).padStart(2, '0')} / {String(filtered.length).padStart(2, '0')}
+                </div>
+              </div>
+              <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+                {p.tag} · {p.year}
+              </div>
+              <div style={{ fontFamily: T.serif, fontSize: 32, marginTop: 6, letterSpacing: '-0.01em', color: T.ink, lineHeight: 1.1 }}>
+                {p.name}
+              </div>
+              <p style={{ fontFamily: T.sans, fontSize: 14, color: T.inkSoft, marginTop: 12, marginBottom: 14, lineHeight: 1.5 }}>
+                {p.desc}
+              </p>
+              <p style={{ fontFamily: T.sans, fontSize: 12, color: T.muted, margin: 0, lineHeight: 1.5, fontStyle: 'italic' }}>
+                {p.descEn}
+              </p>
+              <div style={{ marginTop: 18, paddingTop: 14, borderTop: `1px solid ${T.rule}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontFamily: T.mono, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                <span style={{ color: T.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '70%' }}>
+                  {p.url.replace(/^https?:\/\//, '')}
+                </span>
+                <span style={{ color: T.accent }}>Open ↗</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      {/* Stats strip */}
+      <section style={{ padding: '0 44px 56px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: `1px solid ${T.rule}`, background: T.card }}>
+          {[
+            { n: PROJECTS.length, l: 'Projects shipped' },
+            { n: 2, l: 'Live demos' },
+            { n: 5, l: 'Years building' },
+            { n: '∞', l: 'In progress' },
+          ].map((s, i) => (
+            <div key={i} style={{ padding: '24px 22px', borderLeft: i === 0 ? 'none' : `1px solid ${T.rule}` }}>
+              <div style={{ fontFamily: T.serif, fontSize: 56, lineHeight: 1, color: T.accent, letterSpacing: '-0.02em' }}>{s.n}</div>
+              <div style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 8 }}>{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <PageFooter />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<ProjectsPage />);
+</script>
+</body>
+</html>

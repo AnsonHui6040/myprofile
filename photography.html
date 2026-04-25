@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Photography — AnsonHui</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Figtree:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  html, body { margin:0; padding:0; background:#0e0d0b; font-family: Figtree, "Noto Sans TC", system-ui, sans-serif; color:#ede4d0; }
+  *, *::before, *::after { box-sizing: border-box; }
+  a { color: inherit; }
+  /* lightbox */
+  .lb-back { position: fixed; inset: 0; background: rgba(8,7,6,0.94); z-index: 100; display: grid; place-items: center; padding: 40px; backdrop-filter: blur(8px); animation: lbIn .15s ease-out; }
+  @keyframes lbIn { from { opacity: 0 } to { opacity: 1 } }
+  .lb-img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+  .lb-close { position: fixed; top: 24px; right: 30px; background: none; border: 1px solid rgba(237,228,208,0.3); color: #ede4d0; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; padding: 8px 14px; cursor: pointer; }
+  .lb-close:hover { background: rgba(237,228,208,0.1); }
+  .lb-nav { position: fixed; top: 50%; transform: translateY(-50%); background: none; border: none; color: #ede4d0; font-family: 'Instrument Serif', serif; font-size: 48px; cursor: pointer; opacity: 0.6; transition: opacity .15s; padding: 20px; }
+  .lb-nav:hover { opacity: 1; }
+  .lb-nav.prev { left: 20px; }
+  .lb-nav.next { right: 20px; }
+  .lb-meta { position: fixed; bottom: 24px; left: 30px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: rgba(237,228,208,0.6); }
+  /* photo card hover */
+  .pcard { cursor: zoom-in; transition: transform .25s, filter .25s; }
+  .pcard:hover { filter: brightness(1.08); }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="shared.jsx"></script>
+<script type="text/babel">
+
+function Lightbox({ idx, setIdx }) {
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (idx == null) return;
+      if (e.key === 'Escape') setIdx(null);
+      if (e.key === 'ArrowRight') setIdx((idx + 1) % PHOTOS.length);
+      if (e.key === 'ArrowLeft')  setIdx((idx - 1 + PHOTOS.length) % PHOTOS.length);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [idx]);
+  if (idx == null) return null;
+  const p = PHOTOS[idx];
+  return (
+    <div className="lb-back" onClick={() => setIdx(null)}>
+      <button className="lb-close" onClick={(e) => { e.stopPropagation(); setIdx(null); }}>✕  CLOSE · ESC</button>
+      <button className="lb-nav prev" onClick={(e) => { e.stopPropagation(); setIdx((idx - 1 + PHOTOS.length) % PHOTOS.length); }}>‹</button>
+      <button className="lb-nav next" onClick={(e) => { e.stopPropagation(); setIdx((idx + 1) % PHOTOS.length); }}>›</button>
+      <img className="lb-img" src={p.src} alt={p.subject} onClick={(e) => e.stopPropagation()} />
+      <div className="lb-meta">
+        № {String(idx + 1).padStart(2, '0')} / {String(PHOTOS.length).padStart(2, '0')}  ·  {p.subject}  ·  {p.orient}
+      </div>
+    </div>
+  );
+}
+
+function PhotographyPage() {
+  const [idx, setIdx] = React.useState(null);
+  return (
+    <div className="ah-grain" style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <PageNav active="photography" />
+
+      {/* Hero band */}
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 20, padding: '60px 44px 36px' }}>
+        <div style={{ gridColumn: 'span 7' }}>
+          <div style={{ fontFamily: T.mono, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.accent, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ width: 8, height: 8, borderRadius: 99, background: T.accent, boxShadow: `0 0 10px ${T.accent}` }} />
+            01 — Photography
+          </div>
+          <h1 style={{ margin: 0, fontFamily: T.sans, fontWeight: 800, fontSize: 72, lineHeight: 1, letterSpacing: '-0.035em' }}>
+            <span style={{ color: T.ink }}>Frames</span><br/>
+            <span style={{ color: T.accent }}>collected.</span>
+          </h1>
+          <div style={{ marginTop: 24, display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+            <div style={{ width: 40, height: 2, background: T.accent, marginTop: 12 }} />
+            <p style={{ margin: 0, fontSize: 17, lineHeight: 1.6, maxWidth: 520, color: T.inkSoft }}>
+              街頭、旅行與自然的片刻。{PHOTOS.length} 張影像，依拍攝順序排列。點擊任一張可放大瀏覽。
+            </p>
+          </div>
+        </div>
+        <div style={{ gridColumn: 'span 5', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'flex-end', gap: 6 }}>
+          <a href="https://instagram.com/ansonhui6040" style={{ fontFamily: T.mono, fontSize: 11, color: T.accent, letterSpacing: '0.16em', textTransform: 'uppercase', textDecoration: 'none', borderBottom: `1px solid ${T.accent}`, paddingBottom: 3 }}>
+            Follow @ansonhui6040 →
+          </a>
+          <div style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            {PHOTOS.length} frames · 2024 — 2026
+          </div>
+        </div>
+      </section>
+
+      {/* Asymmetric mosaic — uses real aspect ratios */}
+      <section style={{ padding: '0 44px 56px' }}>
+        {/* Row 1: 2 wide landscapes */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
+          {[0, 1].map((i) => (
+            <div key={i} className="pcard" style={{ position: 'relative', paddingTop: `${100 / PHOTOS[i].ratio}%`, border: `1px solid ${T.rule}` }} onClick={() => setIdx(i)}>
+              <PhotoTile photo={PHOTOS[i]} style={{ position: 'absolute', inset: 0 }} />
+              <div style={{ position: 'absolute', top: 10, left: 12, fontFamily: T.mono, fontSize: 10, color: '#fff', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', letterSpacing: '0.1em' }}>
+                {String(i + 1).padStart(2, '0')}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Row 2: portrait + 2 stacked landscapes */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 8, marginBottom: 8 }}>
+          <div className="pcard" style={{ position: 'relative', paddingTop: `${100 / PHOTOS[5].ratio}%`, border: `1px solid ${T.rule}` }} onClick={() => setIdx(5)}>
+            <PhotoTile photo={PHOTOS[5]} style={{ position: 'absolute', inset: 0 }} />
+            <div style={{ position: 'absolute', top: 10, left: 12, fontFamily: T.mono, fontSize: 10, color: '#fff', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', letterSpacing: '0.1em' }}>06</div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 8 }}>
+            {[2, 3].map((i) => (
+              <div key={i} className="pcard" style={{ position: 'relative', overflow: 'hidden', border: `1px solid ${T.rule}` }} onClick={() => setIdx(i)}>
+                <PhotoTile photo={PHOTOS[i]} style={{ width: '100%', height: '100%', minHeight: 200 }} />
+                <div style={{ position: 'absolute', top: 10, left: 12, fontFamily: T.mono, fontSize: 10, color: '#fff', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', letterSpacing: '0.1em' }}>{String(i + 1).padStart(2, '0')}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Row 3: full-bleed landscape */}
+        <div className="pcard" style={{ position: 'relative', paddingTop: `${100 / PHOTOS[4].ratio}%`, border: `1px solid ${T.rule}`, marginBottom: 8 }} onClick={() => setIdx(4)}>
+          <PhotoTile photo={PHOTOS[4]} style={{ position: 'absolute', inset: 0 }} />
+          <div style={{ position: 'absolute', top: 10, left: 12, fontFamily: T.mono, fontSize: 10, color: '#fff', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', letterSpacing: '0.1em' }}>05</div>
+          <div style={{ position: 'absolute', bottom: 14, right: 18, fontFamily: T.mono, fontSize: 10, color: '#fff', background: 'rgba(0,0,0,0.55)', padding: '4px 9px', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Featured</div>
+        </div>
+
+        {/* Row 4: 2 stacked landscapes + portrait */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 8, marginBottom: 8 }}>
+          <div style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 8 }}>
+            {[7, 8].map((i) => (
+              <div key={i} className="pcard" style={{ position: 'relative', overflow: 'hidden', border: `1px solid ${T.rule}` }} onClick={() => setIdx(i)}>
+                <PhotoTile photo={PHOTOS[i]} style={{ width: '100%', height: '100%', minHeight: 200 }} />
+                <div style={{ position: 'absolute', top: 10, left: 12, fontFamily: T.mono, fontSize: 10, color: '#fff', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', letterSpacing: '0.1em' }}>{String(i + 1).padStart(2, '0')}</div>
+              </div>
+            ))}
+          </div>
+          <div className="pcard" style={{ position: 'relative', paddingTop: `${100 / PHOTOS[6].ratio}%`, border: `1px solid ${T.rule}` }} onClick={() => setIdx(6)}>
+            <PhotoTile photo={PHOTOS[6]} style={{ position: 'absolute', inset: 0 }} />
+            <div style={{ position: 'absolute', top: 10, left: 12, fontFamily: T.mono, fontSize: 10, color: '#fff', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', letterSpacing: '0.1em' }}>07</div>
+          </div>
+        </div>
+
+        {/* Row 5: last landscape full-bleed */}
+        <div className="pcard" style={{ position: 'relative', paddingTop: `${100 / PHOTOS[9].ratio}%`, border: `1px solid ${T.rule}` }} onClick={() => setIdx(9)}>
+          <PhotoTile photo={PHOTOS[9]} style={{ position: 'absolute', inset: 0 }} />
+          <div style={{ position: 'absolute', top: 10, left: 12, fontFamily: T.mono, fontSize: 10, color: '#fff', background: 'rgba(0,0,0,0.55)', padding: '3px 7px', letterSpacing: '0.1em' }}>10</div>
+        </div>
+
+        {/* Caption row */}
+        <div style={{ marginTop: 16, display: 'flex', justifyContent: 'space-between', fontFamily: T.mono, fontSize: 10, color: T.muted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+          <span>Plate I — selected 2024 — 2026</span>
+          <span>Click any frame to enlarge</span>
+        </div>
+      </section>
+
+      <PageFooter />
+      <Lightbox idx={idx} setIdx={setIdx} />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<PhotographyPage />);
+</script>
+</body>
+</html>

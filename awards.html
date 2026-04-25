@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Awards — AnsonHui</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Figtree:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  html, body { margin:0; padding:0; background:#0e0d0b; font-family: Figtree, "Noto Sans TC", system-ui, sans-serif; color:#ede4d0; }
+  *, *::before, *::after { box-sizing: border-box; }
+  a { color: inherit; }
+  .cert { transition: transform .25s, border-color .15s; }
+  .cert:hover { transform: translateY(-3px); border-color: rgba(232,169,98,0.5); }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="shared.jsx"></script>
+<script type="text/babel">
+
+// Stylized cert "stamp" — used as cover art for each award card.
+function CertStamp({ a }) {
+  return (
+    <div style={{
+      position: 'relative', width: '100%', paddingTop: '62%',
+      background: `radial-gradient(circle at 30% 30%, ${a.color}26 0%, transparent 55%), ${T.card}`,
+      borderBottom: `1px solid ${T.rule}`,
+      overflow: 'hidden',
+    }}>
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '20px 22px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div style={{
+            width: 40, height: 40, borderRadius: 99,
+            border: `2px solid ${a.color}`,
+            display: 'grid', placeItems: 'center',
+            fontFamily: T.serif, fontSize: 22, color: a.color,
+            fontStyle: 'italic',
+          }}>★</div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ fontFamily: T.mono, fontSize: 9, color: T.muted, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Year</div>
+            <div style={{ fontFamily: T.serif, fontSize: 28, color: T.ink, lineHeight: 1, marginTop: 2 }}>{a.year}</div>
+          </div>
+        </div>
+        <div>
+          <div style={{ fontFamily: T.mono, fontSize: 9, color: a.color, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+            {a.category}
+          </div>
+        </div>
+      </div>
+      {/* Decorative seal lines */}
+      <svg style={{ position: 'absolute', right: -30, bottom: -30, opacity: 0.18 }} width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="55" fill="none" stroke={a.color} strokeWidth="1" strokeDasharray="2 4" />
+        <circle cx="60" cy="60" r="42" fill="none" stroke={a.color} strokeWidth="0.5" />
+      </svg>
+    </div>
+  );
+}
+
+function AwardsPage() {
+  const cats = ['All', ...Array.from(new Set(AWARDS.map((a) => a.category)))];
+  const [filter, setFilter] = React.useState('All');
+  const filtered = filter === 'All' ? AWARDS : AWARDS.filter((a) => a.category === filter);
+
+  return (
+    <div className="ah-grain" style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <PageNav active="awards" />
+
+      {/* Hero */}
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 20, padding: '60px 44px 40px' }}>
+        <div style={{ gridColumn: 'span 8' }}>
+          <div style={{ fontFamily: T.mono, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.accent, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ width: 8, height: 8, borderRadius: 99, background: T.accent, boxShadow: `0 0 10px ${T.accent}` }} />
+            03 — Awards &amp; Certificates
+          </div>
+          <h1 style={{ margin: 0, fontFamily: T.sans, fontWeight: 800, fontSize: 72, lineHeight: 1, letterSpacing: '-0.035em' }}>
+            <span style={{ color: T.ink }}>The receipts.</span><br/>
+            <span style={{ color: T.accent, fontStyle: 'italic', fontFamily: T.serif, fontWeight: 400 }}>Proof of work.</span>
+          </h1>
+        </div>
+        <div style={{ gridColumn: 'span 4', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 10 }}>
+          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: T.inkSoft, maxWidth: 320 }}>
+            一些獎狀、競賽、證書與認證 — 學習與創作沿途留下的紀錄。
+          </p>
+          <div style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            {AWARDS.length} entries · 2022 — 2024
+          </div>
+        </div>
+      </section>
+
+      {/* Filter chips */}
+      <section style={{ padding: '0 44px 22px', display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+        <span style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, letterSpacing: '0.16em', textTransform: 'uppercase', marginRight: 6 }}>
+          Category:
+        </span>
+        {cats.map((c) => {
+          const on = c === filter;
+          return (
+            <button key={c} onClick={() => setFilter(c)} style={{
+              fontFamily: T.mono, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase',
+              padding: '7px 12px',
+              background: on ? T.accent : 'transparent',
+              color: on ? T.bg : T.ink,
+              border: `1px solid ${on ? T.accent : T.rule}`,
+              cursor: 'pointer',
+              fontWeight: on ? 700 : 400,
+            }}>{c}</button>
+          );
+        })}
+      </section>
+
+      {/* Cards grid */}
+      <section style={{ padding: '0 44px 40px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+          {filtered.map((a, i) => (
+            <div key={a.id} className="cert" style={{
+              background: T.card, border: `1px solid ${T.rule}`,
+              display: 'flex', flexDirection: 'column',
+            }}>
+              <CertStamp a={a} />
+              <div style={{ padding: '20px 22px 22px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+                  {a.org}
+                </div>
+                <div style={{ fontFamily: T.serif, fontSize: 22, marginTop: 6, color: T.ink, lineHeight: 1.25, letterSpacing: '-0.005em' }}>
+                  {a.title}
+                </div>
+                <p style={{ fontFamily: T.sans, fontSize: 13, color: T.inkSoft, marginTop: 10, marginBottom: 0, lineHeight: 1.5, flex: 1 }}>
+                  {a.note}
+                </p>
+                <div style={{ marginTop: 16, paddingTop: 12, borderTop: `1px solid ${T.rule}`, fontFamily: T.mono, fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: a.color }}>
+                  Cert · № {String(i + 1).padStart(3, '0')}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Timeline */}
+      <section style={{ padding: '20px 44px 56px' }}>
+        <SectionHead num="04" kicker="Chronology" title="By year." meta="2022 — 2024" />
+        <div style={{ background: T.card, border: `1px solid ${T.rule}` }}>
+          {AWARDS.slice().sort((a, b) => Number(b.year) - Number(a.year)).map((a, i, arr) => (
+            <div key={a.id} style={{
+              display: 'grid', gridTemplateColumns: '90px 100px 1.2fr 2fr 80px',
+              padding: '16px 22px', alignItems: 'center', gap: 14,
+              borderTop: i === 0 ? 'none' : `1px solid ${T.rule}`,
+            }}>
+              <div style={{ fontFamily: T.mono, fontSize: 11, color: a.color, letterSpacing: '0.14em' }}>{a.year}</div>
+              <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{a.category}</div>
+              <div style={{ fontFamily: T.serif, fontSize: 18, color: T.ink, letterSpacing: '-0.005em' }}>{a.title}</div>
+              <div style={{ fontFamily: T.sans, fontSize: 13, color: T.inkSoft, lineHeight: 1.5 }}>{a.note}</div>
+              <div style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, textAlign: 'right', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{a.org}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 14, fontFamily: T.mono, fontSize: 10, color: T.muted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+          Note · 內容為示意，實際獎狀掃描檔可後續上傳並取代封面。
+        </div>
+      </section>
+
+      <PageFooter />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<AwardsPage />);
+</script>
+</body>
+</html>
