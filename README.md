@@ -12,6 +12,7 @@ This repository is currently a static multi-page site served by Nginx inside a D
 | Runtime server | Nginx container |
 | Main branch | `main` |
 | Current priority | Keep the existing visual design while improving security, deployment reliability, loading performance, and maintainability in VS Code |
+| Confirmation rule | Work can be prepared automatically; final PR merge is manually confirmed by Anson |
 
 ## File structure
 
@@ -43,6 +44,98 @@ The latest security and performance pass focused on the deployment layer rather 
 | Compression | Enabled gzip for text-based assets. | None |
 | Health check | Added `/healthz` endpoint and Docker `HEALTHCHECK`. | None |
 | Hidden file protection | Denied direct access to dotfiles. | None |
+| Documentation | Expanded README into a VS Code maintenance guide. | None |
+
+## Maintenance workflow
+
+Use this workflow for future updates.
+
+| Step | Action | Owner |
+|---|---|---|
+| 1 | Review the request and identify the safest file to edit. | AI / developer |
+| 2 | Make the change on a feature branch. | AI / developer |
+| 3 | Keep visual design unchanged unless explicitly requested. | AI / developer |
+| 4 | Update README or notes if the change affects future maintenance. | AI / developer |
+| 5 | Open a Pull Request with a clear summary and test checklist. | AI / developer |
+| 6 | Review the PR in GitHub. | Anson |
+| 7 | Click **Merge pull request** only after checking the result. | Anson |
+
+### Confirmation rule
+
+Routine code preparation can be automatic, but final merge remains manual.
+
+| Action | Confirmation needed? |
+|---|---|
+| Inspect files | No |
+| Modify files on a branch | No |
+| Commit to a branch | No |
+| Open or update a PR | No |
+| Merge PR into `main` | Yes, Anson confirms manually |
+| Delete production data or remove important assets | Yes |
+| Change visual design direction | Yes |
+
+## Branch naming convention
+
+Use clear branch names so VS Code and GitHub history remain readable.
+
+| Change type | Branch pattern | Example |
+|---|---|---|
+| Documentation | `docs/<topic>` | `docs/readme-workflow-guide` |
+| Security | `security/<topic>` | `security/csp-tightening` |
+| Performance | `perf/<topic>` | `perf/image-optimization` |
+| Feature | `feature/<topic>` | `feature/add-contact-section` |
+| Fix | `fix/<topic>` | `fix/lightbox-keyboard-nav` |
+| Refactor | `refactor/<topic>` | `refactor/vite-build` |
+
+## Commit message convention
+
+Use short, direct commit messages.
+
+| Type | Example |
+|---|---|
+| Documentation | `Update README maintenance workflow` |
+| Security | `Tighten nginx security headers` |
+| Performance | `Optimize gallery image caching` |
+| Fix | `Fix photography lightbox keyboard handling` |
+| Refactor | `Move shared components into src` |
+
+## Pull Request checklist
+
+Every PR should include:
+
+- summary of what changed
+- files changed
+- visual impact statement
+- test checklist
+- known limitations
+- rollback note if needed
+
+Recommended PR body:
+
+```md
+## Summary
+
+Describe the change in 2–4 bullet points.
+
+## Scope
+
+- Files changed:
+- Visual impact:
+- Runtime impact:
+
+## Verification
+
+- [ ] `/` loads normally
+- [ ] `/photography.html` loads normally
+- [ ] `/projects.html` loads normally
+- [ ] `/awards.html` loads normally
+- [ ] `/healthz` returns `ok`
+- [ ] Browser console has no blocking errors
+
+## Notes
+
+Mention any limitation, risk, or follow-up work.
+```
 
 ## Important design constraint
 
@@ -92,6 +185,46 @@ Expected response:
 ok
 ```
 
+## VS Code local workflow
+
+Recommended routine when editing locally:
+
+```bash
+git checkout main
+git pull
+git checkout -b docs/example-change
+```
+
+After editing:
+
+```bash
+git status
+git diff
+```
+
+Build and run:
+
+```bash
+docker build -t myprofile .
+docker run --rm -p 8080:80 myprofile
+```
+
+Open:
+
+```text
+http://127.0.0.1:8080
+```
+
+Then commit:
+
+```bash
+git add .
+git commit -m "Describe the change"
+git push -u origin docs/example-change
+```
+
+Create a PR on GitHub, then manually merge after checking.
+
 ## Manual test checklist
 
 After any change, check these pages in the browser:
@@ -111,6 +244,20 @@ Also check the browser console:
 - no blocking CSP errors
 - no missing image errors
 - no missing font errors
+
+## Definition of done
+
+A change is considered done only when:
+
+| Requirement | Done? |
+|---|---|
+| Change is isolated to the correct files | Required |
+| Visual design is preserved unless requested otherwise | Required |
+| Local Docker build succeeds | Required for Docker / Nginx changes |
+| Key pages are checked manually | Required |
+| Browser console is checked | Required |
+| README / notes are updated if workflow changes | Required |
+| PR is reviewed before merge | Required |
 
 ## Current technical limitations
 
@@ -149,6 +296,7 @@ Security and deployment hardening without visual changes.
 - [x] Add `/healthz`
 - [x] Add Docker healthcheck
 - [x] Document security review
+- [x] Expand README for VS Code maintenance
 
 ### Stage 2 — Recommended next
 
@@ -205,6 +353,19 @@ Only after the structure is stable.
 - [ ] Add `sitemap.xml`
 - [ ] Add `robots.txt`
 
+## Task backlog
+
+Use this section as a lightweight project board.
+
+| Priority | Task | Status | Notes |
+|---|---|---|---|
+| High | Keep README updated after structural changes | Active | README should explain what changed and what to check. |
+| High | Keep visual design stable | Active | Maintenance work should not redesign the site by accident. |
+| Medium | Migrate to Vite build | Planned | Best next technical improvement. |
+| Medium | Optimize images | Planned | Important for photography page speed. |
+| Medium | Improve SEO metadata | Planned | Useful before wider sharing. |
+| Low | Add sitemap and robots.txt | Planned | Simple static-site polish. |
+
 ## Editing rules for VS Code / AI assistants
 
 When using Copilot, Claude, Codex, or another coding assistant, use this rule set:
@@ -217,6 +378,21 @@ Preserve all existing pages: index.html, photography.html, projects.html, awards
 If changing deployment or security, prefer Dockerfile/nginx.conf changes before touching page markup.
 If changing shared data, edit shared.jsx carefully and keep object shapes compatible.
 After changes, verify /, /photography.html, /projects.html, /awards.html, /shared.jsx, and /healthz.
+Open a PR for review. Do not merge automatically; Anson confirms the final merge manually.
+```
+
+## AI handoff prompt
+
+Use this prompt when asking an AI coding assistant to continue work:
+
+```text
+You are helping maintain AnsonHui6040/myprofile, a static portfolio site served by Nginx in Docker.
+The site uses static HTML pages, shared.jsx, React UMD, and Babel standalone.
+Preserve the current visual design unless explicitly told otherwise.
+Before changing files, identify the smallest safe change.
+Prefer documentation, Nginx, Docker, or data-object edits before changing page layout.
+After editing, summarize changed files, expected impact, test checklist, and rollback method.
+Do not merge the PR automatically. Final merge is manually confirmed by Anson.
 ```
 
 ## Safe change examples
@@ -242,6 +418,18 @@ These should be done carefully and tested visually:
 | Changing CSP too strictly | May break current Babel/React runtime. |
 | Renaming image files | May break gallery references. |
 | Changing `PROJECTS`, `PHOTOS`, or `AWARDS` object shapes | May break components that expect current keys. |
+
+## Rollback notes
+
+If a deployment breaks:
+
+| Situation | Suggested action |
+|---|---|
+| Page layout breaks | Revert the PR that changed page markup or shared components. |
+| Images fail to load | Check `photo/` filenames and `PHOTOS` entries in `shared.jsx`. |
+| CSP blocks scripts | Check `nginx.conf` CSP and browser console errors. |
+| Docker container fails | Run `docker build -t myprofile .` and check `nginx -t` output. |
+| `/healthz` fails | Check Nginx config and container port mapping. |
 
 ## Deployment notes
 
