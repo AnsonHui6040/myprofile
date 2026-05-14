@@ -2,7 +2,7 @@
 
 Personal portfolio site for AnsonHui. The site presents photography work, project links, awards, and profile information.
 
-This repository is currently a static multi-page site served by Nginx inside a Docker container.
+This repository is currently a static multi-page site that can be served by Nginx inside a Docker container or deployed directly to GitHub Pages.
 
 ## Current status
 
@@ -10,6 +10,7 @@ This repository is currently a static multi-page site served by Nginx inside a D
 |---|---|
 | Site type | Static HTML + React UMD + Babel standalone |
 | Runtime server | Nginx container |
+| GitHub Pages | Static deploy from `main` using GitHub Actions |
 | Main branch | `main` |
 | Current priority | Keep the existing visual design while improving security, deployment reliability, loading performance, and maintainability in VS Code |
 | Confirmation rule | Work can be prepared automatically; final PR merge is manually confirmed by Anson |
@@ -26,6 +27,8 @@ This repository is currently a static multi-page site served by Nginx inside a D
 | `photo/` | Image assets used by the gallery and awards pages. |
 | `Dockerfile` | Builds the Nginx image and copies the static site files into the container. |
 | `nginx.conf` | Nginx server configuration, security headers, cache rules, gzip, and health check route. |
+| `.github/workflows/pages.yml` | Deploys the static site to GitHub Pages whenever `main` is updated. |
+| `.nojekyll` | Tells GitHub Pages to publish files directly without Jekyll processing. |
 | `SECURITY_OPTIMIZATION.md` | Detailed security and performance review notes. |
 | `README.md` | This maintenance guide for VS Code and future editing. |
 
@@ -184,6 +187,26 @@ Expected response:
 ```text
 ok
 ```
+
+## GitHub Pages deployment
+
+This site deploys from the repository root with GitHub Actions.
+
+Public URL after the first successful Pages deployment:
+
+```text
+https://ansonhui6040.github.io/myprofile/
+```
+
+Current repository setup:
+
+- GitHub Pages is enabled.
+- Build and deployment source is set to **GitHub Actions**.
+- HTTPS enforcement is enabled.
+
+If this repository is recreated or forked, open repository **Settings** → **Pages** and set **Build and deployment** source to **GitHub Actions**.
+
+After setup, every push to `main` runs `.github/workflows/pages.yml` and publishes `index.html`, the other HTML pages, `shared.jsx`, and `photo/`.
 
 ## VS Code local workflow
 
