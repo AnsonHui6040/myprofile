@@ -51,7 +51,7 @@ Updated `Dockerfile` to:
 Added Nginx-level performance settings:
 
 - gzip for text-based assets
-- 30-day immutable caching for image assets
+- 7-day caching for image assets
 - 7-day caching for CSS, JS, font assets
 - no-cache for HTML and `shared.jsx`, so content edits appear quickly
 
@@ -59,26 +59,33 @@ Added Nginx-level performance settings:
 
 Added a rule to deny direct access to dotfiles, such as accidental `.env`, `.git`, or similar hidden files if they are ever copied into the container.
 
+### 5. Cross-deployment security baseline
+
+- Replaced location-level `add_header Cache-Control` directives with `expires`, so Nginx responses inherit the server-level security headers.
+- Added a compatible CSP meta policy and referrer policy to every HTML page for GitHub Pages, which does not use `nginx.conf`.
+- Added verified SHA-384 Subresource Integrity metadata to every CDN script.
+- Standardized all pages on the React production UMD builds.
+
 ## Findings not changed in this PR
 
 These are valid future improvements but were not applied because they may affect development workflow or require larger restructuring.
 
-### 1. Runtime Babel and React development builds
+### 1. Runtime Babel and CDN React builds
 
 Current pages load:
 
-- `react.development.js`
-- `react-dom.development.js`
+- `react.production.min.js`
+- `react-dom.production.min.js`
 - `@babel/standalone`
 - `<script type="text/babel">`
 
-This is acceptable for a prototype but suboptimal for production because it increases payload size and requires a looser CSP with `unsafe-inline` and `unsafe-eval`.
+The React development builds have been removed, but runtime Babel remains suboptimal for production because it increases browser work and requires a looser CSP with `unsafe-inline` and `unsafe-eval`.
 
 Recommended future direction:
 
 - migrate to Vite or another small static build pipeline
 - precompile JSX into static JavaScript
-- switch React and ReactDOM to production builds
+- bundle or self-host React and ReactDOM
 - then tighten CSP by removing `unsafe-eval` and most inline script allowances
 
 ### 2. Inline styles
