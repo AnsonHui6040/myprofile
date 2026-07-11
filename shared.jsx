@@ -305,24 +305,19 @@ function PhotoTile({ photo, style, labelColor, showLabel = false, radius = 0, fi
       opacity: 0.5; mix-blend-mode: overlay;
     }
     .ah-grain { min-width: 0; overflow-x: hidden; }
-    @media (max-width: 380px) {
-      .ah-grain > header { padding: 12px 14px !important; }
+    @media (max-width: 640px) {
+      .ah-grain > header { padding: clamp(12px, 3.6vw, 14px) clamp(14px, 5.1vw, 20px) !important; }
       .ah-grain > footer {
         grid-template-columns: minmax(0, 1fr) !important;
-        padding: 22px 14px !important;
-        gap: 14px !important;
+        padding: clamp(22px, 6.15vw, 24px) clamp(14px, 5.1vw, 20px) !important;
+        gap: clamp(12px, 3.6vw, 14px) !important;
       }
       .ah-grain > footer > * { grid-column: span 1 !important; min-width: 0; text-align: left !important; }
       .ah-grain > footer > div:nth-child(2) {
-        display: grid !important;
-        grid-template-columns: minmax(0, 1fr) !important;
-        gap: 12px !important;
+        gap: clamp(12px, 5.65vw, 22px) !important;
+        font-size: clamp(11px, 3.35vw, 13px) !important;
       }
       .ah-grain > footer a { min-width: 0; overflow-wrap: anywhere; }
-    }
-    @media (max-width: 300px) {
-      .ah-grain > header > div:last-child { display: none !important; }
-      .ah-grain > header { grid-template-columns: 1fr !important; }
     }
   `;
   document.head.appendChild(s);

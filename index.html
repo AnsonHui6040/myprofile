@@ -187,7 +187,7 @@ function PhotoTile({ photo, style, labelColor, showLabel = true, radius = 0 }) {
     @media (max-width: 640px) {
       .ah-grain > header {
         grid-template-columns: 1fr auto !important;
-        padding: 14px 20px !important;
+        padding: clamp(12px, 3.6vw, 14px) clamp(14px, 5.1vw, 20px) !important;
         gap: 0 !important;
       }
       .ah-grain > header nav { display: none !important; }
@@ -195,91 +195,71 @@ function PhotoTile({ photo, style, labelColor, showLabel = true, radius = 0 }) {
       .ah-grain > header > div:last-child { grid-column: auto !important; }
       .ah-hero {
         grid-template-columns: 1fr !important;
-        padding: 32px 20px 24px !important;
-        gap: 28px !important;
+        padding: clamp(24px, 8.2vw, 32px) clamp(14px, 5.1vw, 20px) clamp(20px, 6.2vw, 24px) !important;
+        gap: clamp(20px, 7.2vw, 28px) !important;
       }
       .ah-hero-text { grid-column: span 1 !important; }
-      .ah-h1 { font-size: 52px !important; }
+      .ah-h1 { font-size: clamp(40px, 13.34vw, 52px) !important; }
       .ah-hero-photo { grid-column: span 1 !important; }
       .ah-hero-photo .ah-feat-label { left: 0 !important; }
+      .ah-hero-text > div:last-child { gap: clamp(12px, 5.1vw, 20px) !important; }
+      .ah-hero-text > div:last-child > div:first-child { width: clamp(24px, 10.25vw, 40px) !important; flex: 0 0 clamp(24px, 10.25vw, 40px) !important; }
+      .ah-hero-text > div:last-child p { font-size: clamp(15px, 4.35vw, 17px) !important; }
       .ah-about-section {
         grid-template-columns: 1fr !important;
-        padding: 0 20px 28px !important;
-        gap: 28px !important;
+        padding: 0 clamp(14px, 5.1vw, 20px) clamp(24px, 7.2vw, 28px) !important;
+        gap: clamp(24px, 7.2vw, 28px) !important;
       }
       .ah-about-col { grid-column: span 1 !important; }
-      .ah-about-col p { font-size: 20px !important; }
+      .ah-about-col p { font-size: clamp(18px, 5.1vw, 20px) !important; }
       .ah-cv-col { grid-column: span 1 !important; }
-      #ph { padding: 0 20px 16px !important; }
+      #ph { padding: 0 clamp(14px, 5.1vw, 20px) clamp(14px, 4.1vw, 16px) !important; }
       .ah-ph-header {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important;
-        margin-bottom: 12px !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: clamp(6px, 2.55vw, 10px) !important;
+        margin-bottom: clamp(10px, 3.1vw, 12px) !important;
       }
-      .ah-ph-header > div { grid-column: span 1 !important; }
-      .ah-ph-header > h2 { grid-column: span 2 !important; font-size: 22px !important; margin: 0 !important; }
-      .ah-ph-link { grid-column: span 2 !important; text-align: left !important; }
+      .ah-ph-header > div {
+        grid-column: span 1 !important;
+        gap: clamp(6px, 3.1vw, 12px) !important;
+        font-size: clamp(9px, 2.82vw, 11px) !important;
+        letter-spacing: clamp(0.1em, 0.45vw, 0.18em) !important;
+        white-space: nowrap;
+      }
+      .ah-ph-header > div > a { font-size: inherit; letter-spacing: inherit !important; }
+      .ah-ph-header > h2 { grid-column: span 1 !important; font-size: clamp(20px, 5.65vw, 22px) !important; margin: 0 !important; }
+      .ah-ph-link { grid-column: span 1 !important; text-align: left !important; font-size: clamp(9px, 2.82vw, 11px) !important; }
       .ah-filmstrip {
-        height: 140px !important;
+        height: clamp(120px, 38.5vw, 150px) !important;
       }
       .ah-filmstrip > div:nth-child(n+4) { display: none !important; }
-      #pj { padding: 32px 20px 20px !important; }
+      #pj { padding: clamp(28px, 8.2vw, 32px) clamp(14px, 5.1vw, 20px) clamp(18px, 5.1vw, 20px) !important; }
       .ah-pj-header {
         grid-template-columns: 1fr !important;
-        gap: 6px !important;
-        margin-bottom: 14px !important;
+        gap: clamp(5px, 1.55vw, 6px) !important;
+        margin-bottom: clamp(12px, 3.6vw, 14px) !important;
       }
       .ah-pj-header > * { grid-column: span 1 !important; }
-      .ah-pj-header > h2 { font-size: 24px !important; }
+      .ah-pj-header > h2 { font-size: clamp(21px, 6.15vw, 24px) !important; }
       .ah-pj-header > div:last-child { display: none !important; }
       .ah-proj-row {
-        grid-template-columns: 36px minmax(0, 1fr) 36px !important;
-        padding: 14px 12px !important;
+        grid-template-columns: clamp(28px, 9.25vw, 36px) minmax(0, 1fr) clamp(24px, 9.25vw, 36px) !important;
+        padding: clamp(12px, 3.6vw, 14px) clamp(10px, 3.1vw, 12px) !important;
       }
       .ah-proj-row > * { min-width: 0; }
+      .ah-proj-row > div:nth-child(2) { font-size: clamp(15px, 4.65vw, 18px) !important; overflow-wrap: anywhere; }
       .ah-proj-desc { display: none !important; }
       .ah-proj-tag { display: none !important; }
       .ah-grain > footer {
         grid-template-columns: 1fr !important;
-        padding: 24px 20px !important;
-        gap: 14px !important;
+        padding: clamp(22px, 6.15vw, 24px) clamp(14px, 5.1vw, 20px) !important;
+        gap: clamp(12px, 3.6vw, 14px) !important;
       }
       .ah-footer-label { grid-column: span 1 !important; }
-      .ah-footer-links { grid-column: span 1 !important; }
+      .ah-footer-links { grid-column: span 1 !important; gap: clamp(12px, 5.65vw, 22px) !important; font-size: clamp(11px, 3.35vw, 13px) !important; }
+      .ah-footer-links > a { min-width: 0; overflow-wrap: anywhere; }
       .ah-footer-copy { grid-column: span 1 !important; text-align: left !important; }
       .ah-typed-line { height: calc(0.92em * 2.3) !important; overflow: hidden !important; }
-    }
-    @media (max-width: 380px) {
-      .ah-grain > header { padding: 12px 14px !important; }
-      .ah-hero { padding: 24px 14px 20px !important; gap: 20px !important; }
-      .ah-h1 { font-size: clamp(40px, 14vw, 46px) !important; }
-      .ah-hero-text > div:last-child { gap: 12px !important; }
-      .ah-hero-text > div:last-child > div:first-child { width: 24px !important; flex: 0 0 24px !important; }
-      .ah-hero-text > div:last-child p { font-size: 15px !important; }
-      .ah-about-section { padding: 0 14px 24px !important; gap: 24px !important; }
-      .ah-about-col p { font-size: 18px !important; }
-      #ph { padding: 0 14px 14px !important; }
-      .ah-ph-header { grid-template-columns: 1fr !important; }
-      .ah-ph-header > * { grid-column: span 1 !important; }
-      .ah-ph-header > h2 { font-size: 20px !important; overflow-wrap: anywhere; }
-      .ah-filmstrip { height: 150px !important; }
-      .ah-filmstrip > div:nth-child(n+3) { display: none !important; }
-      #pj { padding: 28px 14px 18px !important; }
-      .ah-pj-header > h2 { font-size: 22px !important; }
-      .ah-proj-row {
-        grid-template-columns: 28px minmax(0, 1fr) 24px !important;
-        padding: 12px 10px !important;
-      }
-      .ah-proj-row > div:nth-child(2) { font-size: 17px !important; overflow-wrap: anywhere; }
-      .ah-grain > footer { padding: 22px 14px !important; }
-      .ah-footer-links { display: grid !important; grid-template-columns: minmax(0, 1fr) !important; gap: 12px !important; }
-      .ah-footer-links > a { min-width: 0; overflow-wrap: anywhere; }
-    }
-    @media (max-width: 300px) {
-      .ah-grain > header > div:last-child { display: none !important; }
-      .ah-grain > header { grid-template-columns: 1fr !important; }
-      .ah-h1 { font-size: 40px !important; }
-      .ah-proj-row > div:nth-child(2) { font-size: 15px !important; }
     }
   `;
   document.head.appendChild(s);

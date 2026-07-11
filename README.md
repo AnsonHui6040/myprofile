@@ -156,6 +156,8 @@ When making maintenance changes, preserve:
 
 For security or performance work, prefer server-level, build-level, or asset-level changes before touching page layout.
 
+For mobile layout changes, scale typography, gutters, gaps, and component sizes together with `clamp()` across the 280–640px range. Keep content in normal document flow; avoid fixed offsets, `transform: scale()`, or hiding content solely to make a narrow viewport fit.
+
 ## How to run locally with Docker
 
 Build the image:
