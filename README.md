@@ -268,6 +268,8 @@ Also check the browser console:
 - no missing image errors
 - no missing font errors
 
+For responsive changes, test all four pages at 390px, 320px, and 280px viewport widths. Confirm that `document.documentElement.scrollWidth` does not exceed `clientWidth`, project cards stay inside their section, and narrow-screen typography remains readable.
+
 ## Definition of done
 
 A change is considered done only when:

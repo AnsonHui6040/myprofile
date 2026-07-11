@@ -183,6 +183,7 @@ function PhotoTile({ photo, style, labelColor, showLabel = true, radius = 0 }) {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
       opacity: 0.5; mix-blend-mode: overlay;
     }
+    .ah-grain { min-width: 0; overflow-x: hidden; }
     @media (max-width: 640px) {
       .ah-grain > header {
         grid-template-columns: 1fr auto !important;
@@ -232,9 +233,10 @@ function PhotoTile({ photo, style, labelColor, showLabel = true, radius = 0 }) {
       .ah-pj-header > h2 { font-size: 24px !important; }
       .ah-pj-header > div:last-child { display: none !important; }
       .ah-proj-row {
-        grid-template-columns: 36px 1fr 36px !important;
+        grid-template-columns: 36px minmax(0, 1fr) 36px !important;
         padding: 14px 12px !important;
       }
+      .ah-proj-row > * { min-width: 0; }
       .ah-proj-desc { display: none !important; }
       .ah-proj-tag { display: none !important; }
       .ah-grain > footer {
@@ -246,6 +248,38 @@ function PhotoTile({ photo, style, labelColor, showLabel = true, radius = 0 }) {
       .ah-footer-links { grid-column: span 1 !important; }
       .ah-footer-copy { grid-column: span 1 !important; text-align: left !important; }
       .ah-typed-line { height: calc(0.92em * 2.3) !important; overflow: hidden !important; }
+    }
+    @media (max-width: 380px) {
+      .ah-grain > header { padding: 12px 14px !important; }
+      .ah-hero { padding: 24px 14px 20px !important; gap: 20px !important; }
+      .ah-h1 { font-size: clamp(40px, 14vw, 46px) !important; }
+      .ah-hero-text > div:last-child { gap: 12px !important; }
+      .ah-hero-text > div:last-child > div:first-child { width: 24px !important; flex: 0 0 24px !important; }
+      .ah-hero-text > div:last-child p { font-size: 15px !important; }
+      .ah-about-section { padding: 0 14px 24px !important; gap: 24px !important; }
+      .ah-about-col p { font-size: 18px !important; }
+      #ph { padding: 0 14px 14px !important; }
+      .ah-ph-header { grid-template-columns: 1fr !important; }
+      .ah-ph-header > * { grid-column: span 1 !important; }
+      .ah-ph-header > h2 { font-size: 20px !important; overflow-wrap: anywhere; }
+      .ah-filmstrip { height: 150px !important; }
+      .ah-filmstrip > div:nth-child(n+3) { display: none !important; }
+      #pj { padding: 28px 14px 18px !important; }
+      .ah-pj-header > h2 { font-size: 22px !important; }
+      .ah-proj-row {
+        grid-template-columns: 28px minmax(0, 1fr) 24px !important;
+        padding: 12px 10px !important;
+      }
+      .ah-proj-row > div:nth-child(2) { font-size: 17px !important; overflow-wrap: anywhere; }
+      .ah-grain > footer { padding: 22px 14px !important; }
+      .ah-footer-links { display: grid !important; grid-template-columns: minmax(0, 1fr) !important; gap: 12px !important; }
+      .ah-footer-links > a { min-width: 0; overflow-wrap: anywhere; }
+    }
+    @media (max-width: 300px) {
+      .ah-grain > header > div:last-child { display: none !important; }
+      .ah-grain > header { grid-template-columns: 1fr !important; }
+      .ah-h1 { font-size: 40px !important; }
+      .ah-proj-row > div:nth-child(2) { font-size: 15px !important; }
     }
   `;
   document.head.appendChild(s);

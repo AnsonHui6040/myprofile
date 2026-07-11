@@ -39,6 +39,17 @@
     .ph-mosaic { padding: 0 20px 40px !important; }
     .ph-mosaic > div { grid-template-columns: 1fr !important; }
   }
+  @media (max-width: 380px) {
+    .ph-hero { padding: 24px 14px 18px !important; }
+    .ph-hero h1 { font-size: 38px !important; }
+    .ph-mosaic { padding: 0 14px 32px !important; }
+    .lb-back { padding: 14px; }
+    .lb-close { top: 12px; right: 12px; }
+    .lb-nav { padding: 14px; }
+    .lb-nav.prev { left: 0; }
+    .lb-nav.next { right: 0; }
+    .lb-meta { left: 14px; right: 14px; bottom: 14px; font-size: 9px; }
+  }
 </style>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>

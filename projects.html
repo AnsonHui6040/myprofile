@@ -26,9 +26,22 @@
     .pj-hero > div { grid-column: auto !important; }
     .pj-filter { padding: 0 20px 12px !important; }
     .pj-cards-sect { padding: 12px 20px 40px !important; }
-    .pj-grid { grid-template-columns: 1fr !important; }
+    .pj-grid { grid-template-columns: minmax(0, 1fr) !important; min-width: 0; }
+    .pj-card { min-width: 0; max-width: 100%; overflow: hidden; }
+    .pj-card > * { min-width: 0; }
     .pj-stats-sect { padding: 0 20px 40px !important; }
     .pj-stats { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+  @media (max-width: 380px) {
+    .pj-hero { padding: 24px 14px 18px !important; }
+    .pj-hero h1 { font-size: 38px !important; overflow-wrap: anywhere; }
+    .pj-filter { padding: 0 14px 10px !important; }
+    .pj-filter > span:last-child { width: 100%; margin-left: 0 !important; }
+    .pj-cards-sect { padding: 10px 14px 32px !important; }
+    .pj-card { padding: 20px 16px !important; }
+    .pj-card > div:nth-child(3) { font-size: 28px !important; overflow-wrap: anywhere; }
+    .pj-stats-sect { padding: 0 14px 32px !important; }
+    .pj-stats > div { padding: 20px 14px !important; min-width: 0; }
   }
 </style>
 

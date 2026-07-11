@@ -304,6 +304,26 @@ function PhotoTile({ photo, style, labelColor, showLabel = false, radius = 0, fi
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
       opacity: 0.5; mix-blend-mode: overlay;
     }
+    .ah-grain { min-width: 0; overflow-x: hidden; }
+    @media (max-width: 380px) {
+      .ah-grain > header { padding: 12px 14px !important; }
+      .ah-grain > footer {
+        grid-template-columns: minmax(0, 1fr) !important;
+        padding: 22px 14px !important;
+        gap: 14px !important;
+      }
+      .ah-grain > footer > * { grid-column: span 1 !important; min-width: 0; text-align: left !important; }
+      .ah-grain > footer > div:nth-child(2) {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 12px !important;
+      }
+      .ah-grain > footer a { min-width: 0; overflow-wrap: anywhere; }
+    }
+    @media (max-width: 300px) {
+      .ah-grain > header > div:last-child { display: none !important; }
+      .ah-grain > header { grid-template-columns: 1fr !important; }
+    }
   `;
   document.head.appendChild(s);
 })();
