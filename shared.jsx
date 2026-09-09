@@ -53,10 +53,10 @@ const PHOTOS = [
 
 const CV = [
   { year: '2026 —', role: '個人作品與產品開發', org: 'Independent', note: '結合攝影與科技，投入個人作品與產品開發' },
-  { year: '2025',   role: '發散與推廣', org: '攝影社社長', note: '推動攝影社品牌發展與影響力擴散' },
-  { year: '2024',   role: '持續創作與組織經驗累積', org: '攝影社副社長', note: '累積社團經營與活動協作經驗' },
-  { year: '2023',   role: '沉澱與突破', org: 'Personal projects', note: '精進影像後製能力，並獲攝影比賽金獎肯定' },
-  { year: '2020',   role: '中學時期的起點', org: '攝影社社長', note: '開始累積創作與管理能力' },
+  { year: '2025', milestone: '攝影社社長',   role: '發散與推廣', org: '攝影社社長', note: '推動攝影社品牌發展與影響力擴散' },
+  { year: '2024', milestone: '攝影社團副社長',   role: '持續創作與組織經驗累積', org: '攝影社副社長', note: '累積社團經營與活動協作經驗' },
+  { year: '2023', milestone: '獲得攝影獎項',   role: '沉澱與突破', org: 'Personal projects', note: '精進影像後製能力，並獲攝影比賽金獎肯定' },
+  { year: '2020', milestone: '學生會幹部攝影師及攝影社團社長',   role: '中學時期的起點', org: '攝影社社長', note: '開始累積創作與管理能力' },
 ];
 
 const LINKS = [
@@ -268,6 +268,21 @@ function PhotoTile({ photo, style, labelColor, showLabel = false, radius = 0, fi
       content: ''; position: absolute; inset: 0; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
       opacity: 0.5; mix-blend-mode: overlay;
+    }
+    .ah-grain { min-width: 0; overflow-x: hidden; }
+    @media (max-width: 640px) {
+      .ah-grain > header:not(.site-nav) { padding: clamp(12px, 3.6vw, 14px) clamp(14px, 5.1vw, 20px) !important; }
+      .ah-grain > footer:not(.site-footer) {
+        grid-template-columns: minmax(0, 1fr) !important;
+        padding: clamp(22px, 6.15vw, 24px) clamp(14px, 5.1vw, 20px) !important;
+        gap: clamp(12px, 3.6vw, 14px) !important;
+      }
+      .ah-grain > footer:not(.site-footer) > * { grid-column: span 1 !important; min-width: 0; text-align: left !important; }
+      .ah-grain > footer:not(.site-footer) > div:nth-child(2) {
+        gap: clamp(12px, 5.65vw, 22px) !important;
+        font-size: clamp(11px, 3.35vw, 13px) !important;
+      }
+      .ah-grain > footer:not(.site-footer) a { min-width: 0; overflow-wrap: anywhere; }
     }
   `;
   document.head.appendChild(s);

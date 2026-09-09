@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; connect-src 'self'; upgrade-insecure-requests" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>Anson Hui — Photography & Development</title>
 <meta name="description" content="Anson Hui 的個人作品集。在攝影與程式之間，記錄光影、探索想法，分享攝影作品、數位專案與創作歷程。" />
 <meta name="theme-color" content="#0e0d0b" />
@@ -10,16 +12,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="site.css?v=20260909-brand-type" />
+<link rel="stylesheet" href="site.css?v=20260910-alignment" />
 <link rel="preload" as="image" href="photo/p10.jpeg" />
-<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 </head>
 <body id="top">
 <div id="root"></div>
 <noscript><div class="no-script"><img class="brand-logo" src="assets/brand/anson-logo-cropped.svg" alt="Anson Photo HUI6040" width="160" /><h1>Anson Hui</h1><p>攝影創作者 ／ 數位作品開發者。請啟用 JavaScript 瀏覽完整作品集。</p><a href="https://ansonhui6040.myportfolio.com/">前往攝影作品集 ↗</a></div></noscript>
-<script type="text/babel" src="shared.jsx?v=20260909-brand-type"></script>
+<script type="text/babel" src="shared.jsx?v=20260910-milestones"></script>
 <script type="text/babel">
 // Static identity remains visible until playback starts, and on unsupported browsers.
 function AnimatedSignature() {
@@ -105,7 +107,10 @@ function RotatingRoles() {
   return <div className="hero-roles">
     <p className="sr-only">I’m a photo club leader, image storyteller, memory collector and travel enthusiast.</p>
     <span className="hero-role-prefix" aria-hidden="true"><img src="assets/brand/im-monogram.svg" alt="" width="96" height="108" /></span>
-    <p className="hero-role-text" aria-hidden="true">{motion ? typed : HERO_ROLES[0]}{motion && <Caret color="var(--accent)" width={2} height=".85em" />}</p>
+    <div className="hero-role-cycle" aria-hidden="true">
+      {HERO_ROLES.map(role => <span className="hero-role-measure" key={role}>{role}</span>)}
+      <p className="hero-role-text">{motion ? typed : HERO_ROLES[0]}{motion && <Caret color="var(--accent)" width={2} height=".85em" />}</p>
+    </div>
   </div>;
 }
 
@@ -116,7 +121,6 @@ function HomePage() {
       <section className="home-hero" aria-labelledby="hero-title">
         <h1 id="hero-title" className="sr-only">Anson Hui 6040 — Photography &amp; Development</h1>
         <div className="hero-copy">
-          <div className="eyebrow hero-eyebrow"><span className="status-dot" /> A PERSONAL PERSPECTIVE</div>
           <AnimatedSignature />
           <RotatingRoles />
           <div className="hero-actions"><a className="button-primary" href="photography.html">探索攝影作品 <span aria-hidden="true">↗</span></a><a className="button-text" href="projects.html">數位專案 <span aria-hidden="true">→</span></a></div>
@@ -134,8 +138,8 @@ function HomePage() {
         </div>
       </section>
       <section className="home-section about-section" aria-labelledby="about-title">
-        <div className="about-copy"><span className="eyebrow">BEHIND THE FRAME / 關於我</span><h2 id="about-title">喜歡在事物裡，<br />留下一點<span>痕跡。</span></h2><p>可能是一個網站，可能是一張照片，可能是某個沒人會特別注意、但少了會覺得哪裡不對的細節。</p><p>現在在臺灣，在攝影和程式之間來回，還不確定終點在哪裡，但不太著急。</p><a className="text-link" href="awards.html">獎項與創作歷程 <span aria-hidden="true">↗</span></a></div>
-        <div className="journey"><span className="eyebrow">ALONG THE WAY / 歷程</span>{CV.map(row => <div className="journey-row" key={row.year}><span className="journey-year">{row.year}</span><div><h3>{row.role}</h3><p>{row.note}</p></div></div>)}</div>
+        <div className="about-copy"><span className="eyebrow">BEHIND THE FRAME / 關於我</span><h2 id="about-title">喜歡在事物裡，<br />留下一點<span>痕跡。</span></h2><p><span>可能是一個網站，</span><span>可能是一張照片，</span><span>可能是某個沒人會特別注意、</span><span>但少了會覺得哪裡不對的細節。</span></p><p><span>現在在臺灣，</span><span>在攝影和程式之間來回，</span><span>還不確定終點在哪裡，</span><span>但不太著急。</span></p><a className="text-link" href="awards.html">獎項與創作歷程 <span aria-hidden="true">↗</span></a></div>
+        <div className="journey"><span className="eyebrow">ALONG THE WAY / 歷程</span>{CV.map(row => <div className="journey-row" key={row.year}><span className="journey-year">{row.year}</span><div className="journey-description"><h3>{row.role}</h3><p>{row.note}</p></div>{row.milestone && <span className="journey-milestone">{row.milestone}</span>}</div>)}</div>
       </section>
       <section className="home-section projects-section" aria-labelledby="projects-title">
         <div className="section-heading"><div><span className="eyebrow">BEYOND THE FRAME / 數位創作</span><h2 id="projects-title">Ideas made <em>real.</em></h2></div><a className="text-link" href="projects.html">全部專案 <span aria-hidden="true">↗</span></a></div>

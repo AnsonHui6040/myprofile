@@ -156,6 +156,8 @@ When making maintenance changes, preserve:
 
 For security or performance work, prefer server-level, build-level, or asset-level changes before touching page layout.
 
+For mobile layout changes, scale typography, gutters, gaps, and component sizes together with `clamp()` across the 280–640px range. Keep content in normal document flow; avoid fixed offsets, `transform: scale()`, or hiding content solely to make a narrow viewport fit.
+
 ## How to run locally with Docker
 
 Build the image:
@@ -268,6 +270,8 @@ Also check the browser console:
 - no missing image errors
 - no missing font errors
 
+For responsive changes, test all four pages at 390px, 320px, and 280px viewport widths. Confirm that `document.documentElement.scrollWidth` does not exceed `clientWidth`, project cards stay inside their section, and narrow-screen typography remains readable.
+
 ## Definition of done
 
 A change is considered done only when:
@@ -287,8 +291,8 @@ A change is considered done only when:
 The site currently loads React and Babel directly in the browser:
 
 ```html
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
 <script type="text/babel" src="shared.jsx"></script>
 ```
@@ -298,7 +302,7 @@ This is simple and works, but it has limitations:
 | Limitation | Effect |
 |---|---|
 | Runtime Babel | Browser must compile JSX at runtime. |
-| React development build | Larger and slower than production build. |
+| CDN React builds | Page execution still depends on a third-party origin. |
 | Inline scripts | CSP must allow `unsafe-inline`. |
 | Babel standalone | CSP must allow `unsafe-eval`. |
 | Inline styles | CSP must allow inline styles. |
@@ -313,7 +317,11 @@ Security and deployment hardening without visual changes.
 
 - [x] Add Nginx config
 - [x] Add security headers
+- [x] Preserve Nginx security-header inheritance across cache locations
 - [x] Add CSP compatible with current architecture
+- [x] Add CSP and referrer meta policies for GitHub Pages
+- [x] Add SRI to all CDN scripts
+- [x] Switch every page to React production UMD builds
 - [x] Add gzip
 - [x] Add cache rules
 - [x] Add `/healthz`
@@ -332,7 +340,7 @@ Suggested direction:
 - [ ] Add Vite
 - [ ] Move JSX into `src/`
 - [ ] Precompile React into production JavaScript
-- [ ] Replace CDN React development builds
+- [ ] Replace CDN React builds with bundled dependencies
 - [ ] Remove runtime Babel
 - [ ] Build into `dist/`
 - [ ] Update Dockerfile to copy `dist/`
