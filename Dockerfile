@@ -6,6 +6,8 @@ COPY photography.html /usr/share/nginx/html/photography.html
 COPY projects.html /usr/share/nginx/html/projects.html
 COPY awards.html /usr/share/nginx/html/awards.html
 COPY shared.jsx /usr/share/nginx/html/shared.jsx
+COPY site.css /usr/share/nginx/html/site.css
+COPY assets/ /usr/share/nginx/html/assets/
 COPY photo/ /usr/share/nginx/html/photo/
 
 RUN nginx -t

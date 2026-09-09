@@ -52,10 +52,11 @@ const PHOTOS = [
 ];
 
 const CV = [
-  { year: '2025 —', role: '個人作品開發', org: 'Independent', note: '互動工具 · 網站 · 線上 demo' },
-  { year: '2024',   role: '攝影創作持續累積', org: 'Instagram @ansonhui6040', note: '街頭 · 旅行 · 自然' },
-  { year: '2023',   role: '設計與影像實作', org: 'Personal projects', note: '簡報 · 平面 · 影像後製' },
-  { year: '2021',   role: '開始公開作品集', org: 'Adobe Portfolio', note: '建立作品發表節奏' },
+  { year: '2026 —', role: '個人作品與產品開發', org: 'Independent', note: '結合攝影與科技，投入個人作品與產品開發' },
+  { year: '2025',   role: '發散與推廣', org: '攝影社社長', note: '推動攝影社品牌發展與影響力擴散' },
+  { year: '2024',   role: '持續創作與組織經驗累積', org: '攝影社副社長', note: '累積社團經營與活動協作經驗' },
+  { year: '2023',   role: '沉澱與突破', org: 'Personal projects', note: '精進影像後製能力，並獲攝影比賽金獎肯定' },
+  { year: '2020',   role: '中學時期的起點', org: '攝影社社長', note: '開始累積創作與管理能力' },
 ];
 
 const LINKS = [
@@ -112,85 +113,48 @@ const T = {
   muted: 'rgba(237,228,208,0.55)',
   rule: 'rgba(237,228,208,0.14)',
   accent: '#e8a962',
-  sans: 'Figtree, "Noto Sans TC", system-ui, sans-serif',
-  mono: '"JetBrains Mono", monospace',
-  serif: '"Instrument Serif", Georgia, serif',
+  sans: 'var(--sans)',
+  mono: 'var(--mono)',
+  serif: 'var(--serif)',
 };
 
-// Top nav, reused across all pages.
-function PageNav({ active }) {
-  return (
-    <header style={{
-      display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)',
-      padding: '22px 44px', gap: 20, alignItems: 'center',
-      borderBottom: `1px solid ${T.rule}`,
-      position: 'relative', zIndex: 2,
-    }}>
-      <a href="index.html" style={{ gridColumn: 'span 3', display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: T.ink }}>
-        <div style={{
-          width: 22, height: 22, background: T.accent,
-          display: 'grid', placeItems: 'center',
-          color: T.bg, fontFamily: T.mono, fontSize: 11, fontWeight: 700,
-          boxShadow: `0 0 12px rgba(232,169,98,0.35)`,
-        }}>A</div>
-        <div style={{ fontFamily: T.mono, fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>
-          AnsonHui
-        </div>
-      </a>
-      <nav style={{
-        gridColumn: 'span 7',
-        display: 'flex', gap: 28, justifyContent: 'center',
-        fontFamily: T.mono, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase',
-      }}>
-        {PAGES.filter((p) => p.id !== 'home').map((p) => {
-          const on = p.id === active;
-          return (
-            <a key={p.id} href={p.href} style={{
-              color: on ? T.accent : T.ink,
-              textDecoration: 'none', display: 'flex', gap: 6, opacity: on ? 1 : 0.85,
-              borderBottom: on ? `1px solid ${T.accent}` : '1px solid transparent',
-              paddingBottom: 3,
-            }}>
-              <span style={{ color: on ? T.accent : T.muted }}>{p.n}</span><span>{p.label}</span>
-            </a>
-          );
-        })}
-      </nav>
-      <div style={{ gridColumn: 'span 2', textAlign: 'right', fontFamily: T.mono, fontSize: 11, color: T.muted, letterSpacing: '0.1em' }}>
-        2026 · TPE
-      </div>
-    </header>
-  );
+// One brand and navigation system across every page.
+function BrandLogo({ className = '', full = false }) {
+  return <img className={`brand-logo ${className}`} src={`assets/brand/anson-logo${full ? '' : '-cropped'}.svg`} alt="Anson Photo HUI6040" width={full ? 1254 : 1025} height={full ? 1254 : 742} />;
 }
 
-// Reusable footer (compact).
+function PageNav({ active }) {
+  const [open, setOpen] = React.useState(false);
+  const menuButton = React.useRef(null);
+  React.useEffect(() => {
+    const onKey = (event) => {
+      if (event.key === 'Escape' && open) {
+        setOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+  return <>
+    <a className="skip-link" href="#main-content">跳至主要內容</a>
+    <header className="site-nav">
+      <a className="brand-home" href="index.html" aria-label="Anson Hui — 首頁"><BrandLogo /><span className="brand-name">ANSON HUI 6040<span>PHOTOGRAPHY & DEVELOPMENT</span></span></a>
+      <button ref={menuButton} className="menu-toggle" aria-expanded={open} aria-controls="site-links" onClick={() => setOpen(!open)}>{open ? 'Close 關閉 −' : 'Menu 選單 +'}</button>
+      <nav id="site-links" aria-label="主要導航" className={open ? 'site-links is-open' : 'site-links'}>
+        {PAGES.filter(p => p.id !== 'home').map(p => <a key={p.id} href={p.href} aria-current={active === p.id ? 'page' : undefined} onClick={() => setOpen(false)}>{p.label}<span>{({photography:'攝影', projects:'專案', awards:'獎項'})[p.id]}</span></a>)}
+        <a className="nav-contact" href="#ct" onClick={() => setOpen(false)}>Contact <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+  </>;
+}
+
 function PageFooter() {
-  return (
-    <footer style={{
-      marginTop: 'auto',
-      background: '#050504',
-      color: T.ink,
-      padding: '32px 44px',
-      display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 20,
-      alignItems: 'center',
-      borderTop: `1px solid ${T.rule}`,
-      position: 'relative', zIndex: 1,
-    }}>
-      <div style={{ gridColumn: 'span 3', fontFamily: T.mono, fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.accent }}>
-        Contact
-      </div>
-      <div style={{ gridColumn: 'span 6', display: 'flex', flexWrap: 'wrap', gap: 22, fontSize: 13 }}>
-        {LINKS.map((l) => (
-          <a key={l.label} href={l.url} style={{ color: T.ink, textDecoration: 'none', borderBottom: `1px solid ${T.rule}`, paddingBottom: 2 }}>
-            <strong style={{ fontWeight: 600 }}>{l.label}</strong> <span style={{ color: T.muted }}>/ {l.handle}</span>
-          </a>
-        ))}
-      </div>
-      <div style={{ gridColumn: 'span 3', textAlign: 'right', fontFamily: T.mono, fontSize: 11, color: T.muted, letterSpacing: '0.1em' }}>
-        © {PROFILE.years}
-      </div>
-    </footer>
-  );
+  return <footer id="ct" className="site-footer">
+    <div className="footer-intro"><a href="index.html" aria-label="Anson Hui — 首頁"><BrandLogo /></a><div><span className="eyebrow">LET’S CONNECT</span><p>故事，從交流開始。</p></div></div>
+    <div className="footer-links">{LINKS.map(l => <a key={l.label} href={l.url}>{l.label}<span aria-hidden="true">↗</span></a>)}</div>
+    <div className="footer-bottom"><span>© {PROFILE.years} Anson Hui</span><span>PHOTOGRAPHY · DEVELOPMENT · EXPLORATION</span><a href="#top">Back to top ↑</a></div>
+  </footer>;
 }
 
 // Section header — `[03] — Title (right meta)`
@@ -216,11 +180,12 @@ function SectionHead({ num, kicker, title, meta }) {
 // Typing animation hook. Loops through an array of phrases,
 // typing each one and then deleting. Pauses on full strings.
 // ──────────────────────────────────────────────────────────────
-function useTyper(phrases, { typeMs = 55, eraseMs = 28, holdMs = 1400 } = {}) {
+function useTyper(phrases, { typeMs = 55, eraseMs = 28, holdMs = 1400, enabled = true } = {}) {
   const [text, setText] = React.useState('');
   const [i, setI] = React.useState(0);
   const [mode, setMode] = React.useState('type'); // 'type' | 'hold' | 'erase'
   React.useEffect(() => {
+    if (!enabled) return;
     const full = phrases[i % phrases.length];
     let t;
     if (mode === 'type') {
@@ -238,7 +203,7 @@ function useTyper(phrases, { typeMs = 55, eraseMs = 28, holdMs = 1400 } = {}) {
       }
     }
     return () => clearTimeout(t);
-  }, [text, mode, i, phrases, typeMs, eraseMs, holdMs]);
+  }, [text, mode, i, phrases, typeMs, eraseMs, holdMs, enabled]);
   return text;
 }
 
@@ -275,7 +240,7 @@ function PhotoTile({ photo, style, labelColor, showLabel = false, radius = 0, fi
       {showLabel && (
         <div style={{
           position: 'absolute', left: 10, bottom: 8,
-          fontFamily: 'JetBrains Mono, monospace',
+          fontFamily: 'var(--mono)',
           fontSize: 10, letterSpacing: '0.04em',
           color: labelColor || '#fff', opacity: 0.92,
           textShadow: '0 1px 4px rgba(0,0,0,0.5)',
@@ -311,5 +276,5 @@ function PhotoTile({ photo, style, labelColor, showLabel = false, radius = 0, fi
 Object.assign(window, {
   PROFILE, PROJECTS, PHOTOS, CV, LINKS, PAGES, AWARDS, T,
   useTyper, Caret, PhotoTile,
-  PageNav, PageFooter, SectionHead,
+  PageNav, PageFooter, SectionHead, BrandLogo,
 });

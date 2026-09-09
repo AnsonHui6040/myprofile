@@ -6,23 +6,23 @@
 <title>Photography — AnsonHui</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Figtree:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
 <style>
-  html, body { margin:0; padding:0; background:#0e0d0b; font-family: Figtree, "Noto Sans TC", system-ui, sans-serif; color:#ede4d0; }
+  html, body { margin:0; padding:0; background:#0e0d0b; font-family: var(--sans); color:#ede4d0; }
   *, *::before, *::after { box-sizing: border-box; }
   a { color: inherit; }
   /* lightbox */
   .lb-back { position: fixed; inset: 0; background: rgba(8,7,6,0.94); z-index: 100; display: grid; place-items: center; padding: 40px; backdrop-filter: blur(8px); animation: lbIn .15s ease-out; }
   @keyframes lbIn { from { opacity: 0 } to { opacity: 1 } }
   .lb-img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
-  .lb-close { position: fixed; top: 24px; right: 30px; background: none; border: 1px solid rgba(237,228,208,0.3); color: #ede4d0; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; padding: 8px 14px; cursor: pointer; }
+  .lb-close { position: fixed; top: 24px; right: 30px; background: none; border: 1px solid rgba(237,228,208,0.3); color: #ede4d0; font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; padding: 8px 14px; cursor: pointer; }
   .lb-close:hover { background: rgba(237,228,208,0.1); }
-  .lb-nav { position: fixed; top: 50%; transform: translateY(-50%); background: none; border: none; color: #ede4d0; font-family: 'Instrument Serif', serif; font-size: 48px; cursor: pointer; opacity: 0.6; transition: opacity .15s; padding: 20px; }
+  .lb-nav { position: fixed; top: 50%; transform: translateY(-50%); background: none; border: none; color: #ede4d0; font-family: var(--serif); font-size: 48px; cursor: pointer; opacity: 0.6; transition: opacity .15s; padding: 20px; }
   .lb-nav:hover { opacity: 1; }
   .lb-nav.prev { left: 20px; }
   .lb-nav.next { right: 20px; }
-  .lb-meta { position: fixed; bottom: 24px; left: 30px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: rgba(237,228,208,0.6); }
+  .lb-meta { position: fixed; bottom: 24px; left: 30px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: rgba(237,228,208,0.6); }
   /* photo card hover */
   .pcard { cursor: zoom-in; transition: transform .25s, filter .25s; }
   .pcard:hover { filter: brightness(1.08); }
@@ -42,12 +42,15 @@
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="site.css?v=20260909-brand-type" />
+<link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
+<meta name="theme-color" content="#0e0d0b" />
 </head>
 
-<body>
+<body id="top">
 <div id="root"></div>
 
-<script type="text/babel" src="shared.jsx"></script>
+<script type="text/babel" src="shared.jsx?v=20260909-brand-type"></script>
 <script type="text/babel">
 
 function Lightbox({ idx, setIdx }) {
@@ -83,7 +86,7 @@ function PhotographyPage() {
       <PageNav active="photography" />
 
       {/* Hero band */}
-      <section className="ph-hero" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 20, padding: '60px 44px 36px' }}>
+      <section id="main-content" tabIndex="-1" className="ph-hero" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 20, padding: '60px 44px 36px' }}>
         <div style={{ gridColumn: 'span 7' }}>
           <div style={{ fontFamily: T.mono, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: T.accent, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{ width: 8, height: 8, borderRadius: 99, background: T.accent, boxShadow: `0 0 10px ${T.accent}` }} />

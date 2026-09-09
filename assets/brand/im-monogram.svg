@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 108" width="96" height="108">
+  <title>I'm — custom monoline lettering</title>
+  <desc>Purpose-drawn narrow letterforms, with the logo's rounded corners and constant-width strokes. Not a scaled font.</desc>
+  <g fill="none" stroke="#ede4d0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 7V101"/>
+    <path d="M29 7V17Q29 22 25 25"/>
+    <path d="M43 101V39Q43 28 54 28Q65 28 65 39V101M65 39Q65 28 76 28Q87 28 87 39V101"/>
+  </g>
+</svg>
