@@ -30,7 +30,7 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir _site
-          cp index.html photography.html projects.html awards.html shared.jsx site.css .nojekyll _site/
+          cp index.html photography.html projects.html awards.html contact.html shared.jsx site.css .nojekyll _site/
           cp -R photo _site/photo
           cp -R assets _site/assets
 

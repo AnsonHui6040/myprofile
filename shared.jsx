@@ -54,7 +54,7 @@ const PHOTOS = [
 const CV = [
   { year: '2026 —', role: '個人作品與產品開發', org: 'Independent', note: '結合攝影與科技，投入個人作品與產品開發' },
   { year: '2025', milestone: '攝影社社長',   role: '發散與推廣', org: '攝影社社長', note: '推動攝影社品牌發展與影響力擴散' },
-  { year: '2024', milestone: '攝影社團副社長',   role: '持續創作與組織經驗累積', org: '攝影社副社長', note: '累積社團經營與活動協作經驗' },
+  { year: '2024', milestone: '攝影社副社長',   role: '持續創作與組織經驗累積', org: '攝影社副社長', note: '累積社團經營與活動協作經驗' },
   { year: '2023', milestone: '獲得攝影獎項',   role: '沉澱與突破', org: 'Personal projects', note: '精進影像後製能力，並獲攝影比賽金獎肯定' },
   { year: '2020', milestone: '學生會幹部攝影師及攝影社團社長',   role: '中學時期的起點', org: '攝影社社長', note: '開始累積創作與管理能力' },
 ];
@@ -143,16 +143,16 @@ function PageNav({ active }) {
       <button ref={menuButton} className="menu-toggle" aria-expanded={open} aria-controls="site-links" onClick={() => setOpen(!open)}>{open ? 'Close 關閉 −' : 'Menu 選單 +'}</button>
       <nav id="site-links" aria-label="主要導航" className={open ? 'site-links is-open' : 'site-links'}>
         {PAGES.filter(p => p.id !== 'home').map(p => <a key={p.id} href={p.href} aria-current={active === p.id ? 'page' : undefined} onClick={() => setOpen(false)}>{p.label}<span>{({photography:'攝影', projects:'專案', awards:'獎項'})[p.id]}</span></a>)}
-        <a className="nav-contact" href="#ct" onClick={() => setOpen(false)}>Contact <span aria-hidden="true">↗</span></a>
+        <a className="nav-contact" href="contact.html" aria-current={active === 'contact' ? 'page' : undefined} onClick={() => setOpen(false)}>Contact <span aria-hidden="true">↗</span></a>
       </nav>
     </header>
   </>;
 }
 
-function PageFooter() {
-  return <footer id="ct" className="site-footer">
-    <div className="footer-intro"><a href="index.html" aria-label="Anson Hui — 首頁"><BrandLogo /></a><div><span className="eyebrow">LET’S CONNECT</span><p>故事，從交流開始。</p></div></div>
-    <div className="footer-links">{LINKS.map(l => <a key={l.label} href={l.url}>{l.label}<span aria-hidden="true">↗</span></a>)}</div>
+function PageFooter({ compact = false }) {
+  return <footer id="ct" className={`site-footer${compact ? ' site-footer-compact' : ''}`}>
+    {!compact && <><div className="footer-intro"><a href="index.html" aria-label="Anson Hui — 首頁"><BrandLogo /></a><div><span className="eyebrow">LET’S CONNECT</span><p>故事，從交流開始。</p></div></div>
+    <div className="footer-links">{LINKS.map(l => <a key={l.label} href={l.url}>{l.label}<span aria-hidden="true">↗</span></a>)}</div></>}
     <div className="footer-bottom"><span>© {PROFILE.years} Anson Hui</span><span>PHOTOGRAPHY · DEVELOPMENT · EXPLORATION</span><a href="#top">Back to top ↑</a></div>
   </footer>;
 }

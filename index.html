@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="site.css?v=20260910-alignment" />
+<link rel="stylesheet" href="site.css?v=20260910-contact" />
 <link rel="preload" as="image" href="photo/p10.jpeg" />
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
 <body id="top">
 <div id="root"></div>
 <noscript><div class="no-script"><img class="brand-logo" src="assets/brand/anson-logo-cropped.svg" alt="Anson Photo HUI6040" width="160" /><h1>Anson Hui</h1><p>攝影創作者 ／ 數位作品開發者。請啟用 JavaScript 瀏覽完整作品集。</p><a href="https://ansonhui6040.myportfolio.com/">前往攝影作品集 ↗</a></div></noscript>
-<script type="text/babel" src="shared.jsx?v=20260910-milestones"></script>
+<script type="text/babel" src="shared.jsx?v=20260910-contact"></script>
 <script type="text/babel">
 // Static identity remains visible until playback starts, and on unsupported browsers.
 function AnimatedSignature() {
@@ -147,8 +147,10 @@ function HomePage() {
         <h1 id="hero-title" className="sr-only">Anson Hui 6040 — Photography &amp; Development</h1>
         <div className="hero-copy">
           <AnimatedSignature />
-          <RotatingRoles />
-          <div className="hero-actions"><a className="button-primary" href="photography.html">探索攝影作品 <span aria-hidden="true">↗</span></a><a className="button-text" href="projects.html">數位專案 <span aria-hidden="true">→</span></a></div>
+          <div className="hero-intro">
+            <RotatingRoles />
+            <div className="hero-actions"><a className="button-primary" href="photography.html">探索攝影作品 <span aria-hidden="true">↗</span></a><a className="button-text" href="projects.html">數位專案 <span aria-hidden="true">→</span></a></div>
+          </div>
         </div>
         <figure className="hero-portrait">
           <div className="portrait-image"><img src="photo/p10.jpeg" alt="Anson 站在河口湖畔，眺望白雪覆蓋的富士山" width="1200" height="900" fetchPriority="high" /><div className="portrait-topline"><span>FIELD NOTES / 2025</span><span>山梨，日本</span></div><div className="portrait-caption"><span className="eyebrow">A MOMENT, KEPT.</span><span>Somewhere between<br /><em>here & the next idea.</em></span></div></div>

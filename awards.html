@@ -16,6 +16,22 @@
   a { color: inherit; }
   .cert { transition: transform .25s, border-color .15s; }
   .cert:hover { transform: translateY(-3px); border-color: rgba(232,169,98,0.5); }
+  .aw-timeline-row {
+    display: grid;
+    grid-template-columns: 64px 132px minmax(0, 1.4fr) minmax(0, 1fr) 72px;
+    padding: 18px 22px;
+    align-items: center;
+    column-gap: 22px;
+    row-gap: 8px;
+  }
+  .aw-timeline-row > div { min-width: 0; overflow-wrap: anywhere; }
+  .aw-timeline-category { white-space: nowrap; }
+  .aw-timeline-title { line-height: 1.5; }
+  @media (min-width: 641px) and (max-width: 1000px) {
+    .aw-timeline-row { grid-template-columns: 64px 132px minmax(0, 1fr) 72px; }
+    .aw-timeline-note { grid-column: 3 / 5; grid-row: 2; }
+    .aw-timeline-org { grid-column: 4; grid-row: 1; }
+  }
   @media (max-width: 640px) {
     .ah-grain > header { grid-template-columns: 1fr auto !important; padding: clamp(12px, 3.6vw, 14px) clamp(14px, 5.1vw, 20px) !important; gap: 0 !important; }
     .ah-grain > header nav { display: none !important; }
@@ -39,7 +55,7 @@
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="site.css?v=20260910-alignment" />
+<link rel="stylesheet" href="site.css?v=20260910-contact" />
 <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
 <meta name="theme-color" content="#0e0d0b" />
 </head>
@@ -47,7 +63,7 @@
 <body id="top">
 <div id="root"></div>
 
-<script type="text/babel" src="shared.jsx?v=20260910-milestones"></script>
+<script type="text/babel" src="shared.jsx?v=20260910-contact"></script>
 <script type="text/babel">
 
 // Stylized cert "stamp" — used as cover art for each award card.
@@ -173,15 +189,13 @@ function AwardsPage() {
         <div style={{ background: T.card, border: `1px solid ${T.rule}` }}>
           {AWARDS.slice().sort((a, b) => Number(b.year) - Number(a.year)).map((a, i, arr) => (
             <div key={a.id} className="aw-timeline-row" style={{
-              display: 'grid', gridTemplateColumns: '90px 100px 1.2fr 2fr 80px',
-              padding: '16px 22px', alignItems: 'center', gap: 14,
               borderTop: i === 0 ? 'none' : `1px solid ${T.rule}`,
             }}>
               <div style={{ fontFamily: T.mono, fontSize: 11, color: a.color, letterSpacing: '0.14em' }}>{a.year}</div>
-              <div style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{a.category}</div>
-              <div style={{ fontFamily: T.serif, fontSize: 18, color: T.ink, letterSpacing: '-0.005em' }}>{a.title}</div>
-              <div style={{ fontFamily: T.sans, fontSize: 13, color: T.inkSoft, lineHeight: 1.5 }}>{a.note}</div>
-              <div style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, textAlign: 'right', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{a.org}</div>
+              <div className="aw-timeline-category" style={{ fontFamily: T.mono, fontSize: 10, color: T.muted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{a.category}</div>
+              <div className="aw-timeline-title" style={{ fontFamily: T.serif, fontSize: 18, color: T.ink, letterSpacing: '-0.005em' }}>{a.title}</div>
+              <div className="aw-timeline-note" style={{ fontFamily: T.sans, fontSize: 13, color: T.inkSoft, lineHeight: 1.5 }}>{a.note}</div>
+              <div className="aw-timeline-org" style={{ fontFamily: T.mono, fontSize: 11, color: T.muted, textAlign: 'right', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{a.org}</div>
             </div>
           ))}
         </div>

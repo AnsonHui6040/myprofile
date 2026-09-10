@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; connect-src 'self'; upgrade-insecure-requests" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<title>Contact — Anson Hui 6040</title>
+<meta name="description" content="與 Anson Hui 交流攝影、創作及數位作品。Instagram、LinkedIn、攝影作品集與 GitHub 聯絡入口。" />
+<meta name="theme-color" content="#0e0d0b" />
+<link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="site.css?v=20260910-contact" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body id="top">
+<div id="root"></div>
+<noscript><div class="no-script"><h1>聯絡 Anson Hui</h1><p>攝影交流與創作想法，從一句 Hello 開始。</p><a href="https://instagram.com/ansonhui6040">前往 Instagram ↗</a></div></noscript>
+<script type="text/babel" src="shared.jsx?v=20260910-contact"></script>
+<script type="text/babel">
+function ContactPage() {
+  const instagram = LINKS.find(link => link.label === 'Instagram');
+  const destinations = [
+    { label: 'Portfolio', purpose: '透過影像認識我', note: '看看鏡頭裡的光影、風景與日常。', category: 'PHOTOGRAPHY' },
+    { label: 'GitHub', purpose: '從想法到作品', note: '瀏覽我的網站、互動工具與程式專案。', category: 'DEVELOPMENT' },
+    { label: 'LinkedIn', purpose: '工作與合作交流', note: '了解我的經歷，建立專業聯繫。', category: 'PROFESSIONAL' },
+    { label: 'Linktree', purpose: '在其他地方找到我', note: '集中查看我的其他社群與連結。', category: 'ELSEWHERE' },
+  ];
+  return <div className="home-page contact-page">
+    <PageNav active="contact" />
+    <main id="main-content" tabIndex="-1" className="contact-main">
+      <section className="contact-hero" aria-labelledby="contact-title">
+        <div className="contact-copy">
+          <p className="eyebrow">LET’S CONNECT / 聯絡我</p>
+          <h1 id="contact-title">Every story<br />starts with<br /><span>hello.</span></h1>
+          <h2>故事，從交流開始。</h2>
+          <p className="contact-description">一張照片、一個想法，或一段想分享的故事。<br />歡迎和我聊聊攝影、數位創作，以及那些值得記錄的日常。</p>
+          <a className="contact-directory-link" href="#find-me">找到適合你的交流入口 <span aria-hidden="true">↓</span></a>
+        </div>
+        <div className="contact-print">
+          <div className="contact-print-top"><span>ANSON HUI 6040</span><span>CONTACT</span></div>
+          <div className="contact-print-logo"><BrandLogo /></div>
+          <div className="contact-print-caption"><span>PHOTOGRAPHY &amp; DEVELOPMENT</span><p>把想說的，<br />留在下一段對話裡。</p></div>
+          <a className="contact-instagram" href={instagram.url}><span><small>來聊聊 / SAY HELLO</small>Instagram</span><span aria-hidden="true">↗</span></a>
+          <span className="contact-handle">{instagram.handle}</span>
+        </div>
+      </section>
+      <section id="find-me" className="contact-directory" aria-labelledby="find-me-title">
+        <div className="contact-directory-heading"><span className="eyebrow">A FEW MORE CONNECTIONS</span><h2 id="find-me-title">不同的入口，<br />同一個我。</h2><p>作品、程式與經歷，<br />從你感興趣的地方開始。</p></div>
+        <div className="contact-destinations">{destinations.map(item => <a className="contact-destination" href={LINKS.find(link => link.label === item.label).url} key={item.label}>
+          <div><span className="eyebrow">{item.category}</span><h3>{item.label}</h3></div>
+          <div className="contact-destination-detail"><strong>{item.purpose}</strong><p>{item.note}</p></div><span className="contact-destination-arrow" aria-hidden="true">↗</span>
+        </a>)}</div>
+      </section>
+    </main>
+    <PageFooter compact />
+  </div>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<ContactPage />);
+</script>
+</body>
+</html>
