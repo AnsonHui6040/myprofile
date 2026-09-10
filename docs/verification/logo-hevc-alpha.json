@@ -1,0 +1,70 @@
+{
+  "frames" : 240,
+  "samples" : [
+    {
+      "cornerAlpha" : 0,
+      "frame" : 0,
+      "maxAlpha" : 0,
+      "minAlpha" : 0,
+      "transparentPixels" : 409600,
+      "visiblePixels" : 0
+    },
+    {
+      "cornerAlpha" : 0,
+      "frame" : 30,
+      "maxAlpha" : 253,
+      "minAlpha" : 0,
+      "transparentPixels" : 391991,
+      "visiblePixels" : 17609
+    },
+    {
+      "cornerAlpha" : 0,
+      "frame" : 60,
+      "maxAlpha" : 253,
+      "minAlpha" : 0,
+      "transparentPixels" : 371710,
+      "visiblePixels" : 37890
+    },
+    {
+      "cornerAlpha" : 0,
+      "frame" : 90,
+      "maxAlpha" : 253,
+      "minAlpha" : 0,
+      "transparentPixels" : 366910,
+      "visiblePixels" : 42690
+    },
+    {
+      "cornerAlpha" : 0,
+      "frame" : 120,
+      "maxAlpha" : 253,
+      "minAlpha" : 0,
+      "transparentPixels" : 366269,
+      "visiblePixels" : 43331
+    },
+    {
+      "cornerAlpha" : 0,
+      "frame" : 150,
+      "maxAlpha" : 253,
+      "minAlpha" : 0,
+      "transparentPixels" : 366269,
+      "visiblePixels" : 43331
+    },
+    {
+      "cornerAlpha" : 0,
+      "frame" : 180,
+      "maxAlpha" : 253,
+      "minAlpha" : 0,
+      "transparentPixels" : 366269,
+      "visiblePixels" : 43331
+    },
+    {
+      "cornerAlpha" : 0,
+      "frame" : 210,
+      "maxAlpha" : 241,
+      "minAlpha" : 0,
+      "transparentPixels" : 366501,
+      "visiblePixels" : 43099
+    }
+  ],
+  "status" : 2
+}

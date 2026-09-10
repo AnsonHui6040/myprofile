@@ -28,10 +28,17 @@ function AnimatedSignature() {
   const video = React.useRef(null);
   const stage = React.useRef(null);
   const inView = React.useRef(true);
+  const alphaVerified = React.useRef(false);
+  const [appleAlpha, setAppleAlpha] = React.useState(false);
   const [enabled, setEnabled] = React.useState(false);
   const [playing, setPlaying] = React.useState(false);
   const [failed, setFailed] = React.useState(false);
   React.useEffect(() => {
+    // Apple WebKit can decode VP9 while dropping its alpha plane. Route Apple
+    // browsers to HEVC with alpha rather than relying on canPlayType alone.
+    setAppleAlpha(navigator.vendor === 'Apple Computer, Inc.' ||
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
     const sync = () => {
       const allowed = !media.matches && !navigator.connection?.saveData;
@@ -67,6 +74,24 @@ function AnimatedSignature() {
       setPlaying(false);
       return;
     }
+    // This asset's corner is transparent in every frame. Check the decoded
+    // frame before revealing the video so an opaque decoder never shows a box.
+    if (!alphaVerified.current) {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 1;
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+        if (!context) throw new Error('Canvas unavailable');
+        context.drawImage(video.current, 0, 0, 1, 1, 0, 0, 1, 1);
+        if (context.getImageData(0, 0, 1, 1).data[3] !== 0) throw new Error('Opaque video decoder');
+        alphaVerified.current = true;
+      } catch {
+        video.current?.pause();
+        setPlaying(false);
+        setFailed(true);
+        return;
+      }
+    }
     setPlaying(true);
   };
   const replay = () => {
@@ -84,7 +109,7 @@ function AnimatedSignature() {
     <button ref={stage} type="button" className={`signature-stage ${playing ? 'is-playing' : ''}`} onClick={replay} disabled={!enabled || failed} aria-label="重播 Logo 動畫" title={enabled && !failed ? '點按 Logo 重新播放' : undefined}>
       <BrandLogo full />
       {enabled && !failed && <video ref={video} autoPlay muted playsInline preload="none" aria-hidden="true" onPlaying={onPlaying} onWaiting={() => setPlaying(false)} onStalled={() => setPlaying(false)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)} onError={() => { setPlaying(false); setFailed(true); }}>
-        <source src="assets/brand/anson-reveal.webm" type="video/webm" onError={() => { setPlaying(false); setFailed(true); }} />
+        <source src={appleAlpha ? 'assets/brand/anson-reveal-hevc.mov' : 'assets/brand/anson-reveal.webm'} type={appleAlpha ? 'video/quicktime; codecs="hvc1"' : 'video/webm; codecs="vp9"'} onError={() => { setPlaying(false); setFailed(true); }} />
       </video>}
     </button>
   </div>;

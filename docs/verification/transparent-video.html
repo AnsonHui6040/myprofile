@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Logo transparency verification</title>
+<style>body{margin:32px;background:#202020;color:#fff;font:16px system-ui}main{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}figure{margin:0;padding:16px;border:1px solid #777}video{display:block;width:100%;height:auto}figcaption{line-height:1.6}output{display:block;padding:16px;background:#000}button{padding:12px;margin-bottom:20px}@media(max-width:600px){main{grid-template-columns:1fr}}</style>
+<h1>HEVC alpha — three backgrounds</h1><p>The original animation must have no rectangular backing. Each decoded corner must have alpha 0.</p><button id="replay">Replay all samples</button><main>
+<figure style="background:#0e0d0b"><figcaption>Website charcoal</figcaption><video muted autoplay playsinline loop src="../../assets/brand/anson-reveal-hevc.mov"></video><output>Loading</output></figure>
+<figure style="background:#335a70"><figcaption>Blue</figcaption><video muted autoplay playsinline loop src="../../assets/brand/anson-reveal-hevc.mov"></video><output>Loading</output></figure>
+<figure style="background:#b76443"><figcaption>Terracotta</figcaption><video muted autoplay playsinline loop src="../../assets/brand/anson-reveal-hevc.mov"></video><output>Loading</output></figure>
+</main><script>
+const videos=[...document.querySelectorAll('video')];
+for(const video of videos){video.addEventListener('timeupdate',()=>{try{const c=document.createElement('canvas');c.width=c.height=1;const ctx=c.getContext('2d');ctx.drawImage(video,0,0,1,1,0,0,1,1);const a=ctx.getImageData(0,0,1,1).data[3];video.nextElementSibling.textContent=`Corner alpha: ${a} / 255 — ${a===0?'PASS':'OPAQUE'} — ${video.currentTime.toFixed(1)}s`;}catch(e){video.nextElementSibling.textContent=e.message}});video.addEventListener('error',()=>video.nextElementSibling.textContent='Unsupported video');}
+document.querySelector('#replay').onclick=()=>videos.forEach(v=>{v.currentTime=0;v.play().catch(e=>v.nextElementSibling.textContent=e.message)});
+</script></html>
