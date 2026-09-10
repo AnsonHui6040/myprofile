@@ -269,7 +269,7 @@ function PhotoTile({ photo, style, labelColor, showLabel = false, radius = 0, fi
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
       opacity: 0.5; mix-blend-mode: overlay;
     }
-    .ah-grain { min-width: 0; overflow-x: hidden; }
+    .ah-grain { min-width: 0; overflow-x: clip; }
     @media (max-width: 640px) {
       .ah-grain > header:not(.site-nav) { padding: clamp(12px, 3.6vw, 14px) clamp(14px, 5.1vw, 20px) !important; }
       .ah-grain > footer:not(.site-footer) {

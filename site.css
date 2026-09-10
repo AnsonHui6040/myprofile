@@ -25,7 +25,7 @@
 }
 html {
   scroll-behavior:smooth;
-  scroll-padding-top:32px
+  scroll-padding-top:112px
 }
 body {
   margin:0;
@@ -80,8 +80,12 @@ a:focus-visible,button:focus-visible {
   gap:28px!important;
   padding:20px var(--gutter)!important;
   border-bottom:1px solid var(--rule);
-  position:relative;
-  z-index:5
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:var(--bg);
+  max-height:100svh;
+  overflow-y:auto
 }
 .brand-home {
   display:flex;
@@ -713,6 +717,7 @@ a:focus-visible,button:focus-visible {
     padding:15px var(--gutter)!important;
     gap:0!important
   }
+  html { scroll-padding-top:92px; }
   .brand-home .brand-logo {
     width:60px
   }
